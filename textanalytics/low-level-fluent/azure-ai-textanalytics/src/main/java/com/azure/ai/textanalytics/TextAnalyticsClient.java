@@ -4,7 +4,7 @@
 
 package com.azure.ai.textanalytics;
 
-import com.azure.ai.textanalytics.util.RequestSpec;
+import com.azure.ai.textanalytics.http.DynamicRequest;
 import com.azure.core.annotation.ReturnType;
 import com.azure.core.annotation.ServiceClient;
 import com.azure.core.annotation.ServiceMethod;
@@ -52,11 +52,11 @@ public class TextAnalyticsClient {
      * @return the response.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public RequestSpec entitiesLinking() {
-        return new RequestSpec(objectSerializer, httpPipeline)
-                .url("{Endpoint}/text/analytics/v3.1-preview.3/entities/linking")
-                .param("Endpoint", endpoint)
-                .httpMethod(HttpMethod.POST)
-                .header("Accept", "application/json, text/json");
+    public DynamicRequest entitiesLinking() {
+        return new DynamicRequest(objectSerializer, httpPipeline)
+                .setUrl("{Endpoint}/text/analytics/v3.1-preview.3/entities/linking")
+                .setQueryParam("Endpoint", endpoint)
+                .setHttpMethod(HttpMethod.POST)
+                .addHeader("Accept", "application/json, text/json");
     }
 }

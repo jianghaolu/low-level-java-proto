@@ -18,10 +18,8 @@ import com.azure.core.http.policy.HttpPolicyProviders;
 import com.azure.core.http.policy.RetryPolicy;
 import com.azure.core.http.policy.UserAgentPolicy;
 import com.azure.core.util.Configuration;
-import com.azure.core.util.serializer.JacksonAdapter;
 import com.azure.core.util.serializer.JsonSerializerProviders;
 import com.azure.core.util.serializer.ObjectSerializer;
-import com.azure.core.util.serializer.SerializerAdapter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -231,12 +229,12 @@ public final class TextAnalyticsClientBuilder {
             this.objectSerializer = JsonSerializerProviders.createInstance();
         }
         TextAnalyticsClient client;
-        try {
-            Class<?> modelClient = Class.forName("TextAnalyticsModelClient");
-            client = (TextAnalyticsClient) modelClient.getConstructor(SerializerAdapter.class, HttpPipeline.class, String.class).newInstance(serializerAdapter, pipeline, endpoint);
-        } catch (Exception e) {
+//        try {
+//            Class<?> modelClient = Class.forName("TextAnalyticsModelClient");
+//            client = (TextAnalyticsClient) modelClient.getConstructor(SerializerAdapter.class, HttpPipeline.class, String.class).newInstance(objectSerializer, pipeline, endpoint);
+//        } catch (Exception e) {
             client = new TextAnalyticsClient(objectSerializer, pipeline, endpoint);
-        }
+//        }
         return client;
     }
 }
