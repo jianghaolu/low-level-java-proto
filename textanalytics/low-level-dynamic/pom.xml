@@ -9,7 +9,7 @@
   </parent>
 
   <groupId>com.azure</groupId>
-  <artifactId>low-level-fluent</artifactId>
+  <artifactId>low-level-dynamic</artifactId>
   <version>3.0.0-beta.2</version> <!-- {x-version-update;com.azure:azure-ai-textanalytics;current} -->
 
   <name>Microsoft Azure client library for Anomaly Detector</name>
