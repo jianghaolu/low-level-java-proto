@@ -19,6 +19,8 @@ import com.azure.core.http.policy.RetryPolicy;
 import com.azure.core.http.policy.UserAgentPolicy;
 import com.azure.core.util.Configuration;
 import com.azure.core.util.serializer.JacksonAdapter;
+import com.azure.core.util.serializer.JsonSerializerProviders;
+import com.azure.core.util.serializer.ObjectSerializer;
 import com.azure.core.util.serializer.SerializerAdapter;
 
 import java.util.ArrayList;
@@ -77,16 +79,16 @@ public final class TextAnalyticsClientBuilder {
     /*
      * The serializer to serialize an object into a string
      */
-    private SerializerAdapter serializerAdapter;
+    private ObjectSerializer objectSerializer;
 
     /**
      * Sets The serializer to serialize an object into a string.
      *
-     * @param serializerAdapter the serializerAdapter value.
+     * @param objectSerializer the objectSerializer value.
      * @return the TextAnalyticsClientBuilder.
      */
-    public TextAnalyticsClientBuilder serializerAdapter(SerializerAdapter serializerAdapter) {
-        this.serializerAdapter = serializerAdapter;
+    public TextAnalyticsClientBuilder objectSerializer(ObjectSerializer objectSerializer) {
+        this.objectSerializer = objectSerializer;
         return this;
     }
 
@@ -225,15 +227,15 @@ public final class TextAnalyticsClientBuilder {
         if (pipeline == null) {
             this.pipeline = createHttpPipeline();
         }
-        if (serializerAdapter == null) {
-            this.serializerAdapter = JacksonAdapter.createDefaultSerializerAdapter();
+        if (objectSerializer == null) {
+            this.objectSerializer = JsonSerializerProviders.createInstance();
         }
         TextAnalyticsClient client;
         try {
             Class<?> modelClient = Class.forName("TextAnalyticsModelClient");
             client = (TextAnalyticsClient) modelClient.getConstructor(SerializerAdapter.class, HttpPipeline.class, String.class).newInstance(serializerAdapter, pipeline, endpoint);
         } catch (Exception e) {
-            client = new TextAnalyticsClient(serializerAdapter, pipeline, endpoint);
+            client = new TextAnalyticsClient(objectSerializer, pipeline, endpoint);
         }
         return client;
     }

@@ -10,17 +10,18 @@ import com.azure.core.annotation.ServiceClient;
 import com.azure.core.annotation.ServiceMethod;
 import com.azure.core.http.HttpMethod;
 import com.azure.core.http.HttpPipeline;
+import com.azure.core.util.serializer.ObjectSerializer;
 import com.azure.core.util.serializer.SerializerAdapter;
 
 /** Initializes a new instance of the asynchronous TextAnalyticsClient type. */
 @ServiceClient(builder = TextAnalyticsClientBuilder.class, isAsync = true)
 public class TextAnalyticsClient {
-    private final SerializerAdapter serializerAdapter;
+    private final ObjectSerializer objectSerializer;
     private final HttpPipeline httpPipeline;
     private final String endpoint;
 
-    protected SerializerAdapter getSerializerAdapter() {
-        return serializerAdapter;
+    protected ObjectSerializer getObjectSerializer() {
+        return objectSerializer;
     }
 
     protected HttpPipeline getHttpPipeline() {
@@ -35,8 +36,8 @@ public class TextAnalyticsClient {
      * Initializes an instance of TextAnalyticsClient client.
      *
      */
-    TextAnalyticsClient(SerializerAdapter serializerAdapter, HttpPipeline httpPipeline, String endpoint) {
-        this.serializerAdapter = serializerAdapter;
+    TextAnalyticsClient(ObjectSerializer objectSerializer, HttpPipeline httpPipeline, String endpoint) {
+        this.objectSerializer = objectSerializer;
         this.httpPipeline = httpPipeline;
         this.endpoint = endpoint;
     }
@@ -52,7 +53,7 @@ public class TextAnalyticsClient {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public RequestSpec entitiesLinking() {
-        return new RequestSpec(serializerAdapter, httpPipeline)
+        return new RequestSpec(objectSerializer, httpPipeline)
                 .url("{Endpoint}/text/analytics/v3.1-preview.3/entities/linking")
                 .param("Endpoint", endpoint)
                 .httpMethod(HttpMethod.POST)
