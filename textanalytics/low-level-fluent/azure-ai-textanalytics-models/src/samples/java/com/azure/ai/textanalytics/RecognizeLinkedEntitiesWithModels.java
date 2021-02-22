@@ -37,9 +37,9 @@ public class RecognizeLinkedEntitiesWithModels {
         MultiLanguageBatchInput batchInput = new MultiLanguageBatchInput().setDocuments(Collections.singletonList(input));
 
         EntityLinkingResult result = client.entitiesLinking() // RequestSpec
-                .body(batchInput) // RequestSpec
+                .setBody(batchInput) // RequestSpec
                 .context(Context.NONE) // RequestSpec
-                .invoke()  // ResponseSpec
+                .send()  // ResponseSpec
                 .asEntityLinkingResult() // Mono<EntityLinkingResponse>
                 .block();
 

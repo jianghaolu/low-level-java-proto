@@ -32,11 +32,11 @@ public final class TextAnalyticsModelClient extends TextAnalyticsClient {
      * @return the response.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public EntitiesLinkingRequestSpec entitiesLinking() {
-        return new EntitiesLinkingRequestSpec(getSerializerAdapter(), getHttpPipeline())
-                .url("{Endpoint}/text/analytics/v3.1-preview.3/entities/linking")
-                .param("Endpoint", getEndpoint())
-                .httpMethod(HttpMethod.POST)
-                .header("Accept", "application/json, text/json");
+    public EntitiesLinkingDynamicRequest entitiesLinking() {
+        return new EntitiesLinkingDynamicRequest(getSerializerAdapter(), getHttpPipeline())
+                .setUrl("{Endpoint}/text/analytics/v3.1-preview.3/entities/linking")
+                .setQueryParam("Endpoint", getEndpoint())
+                .setHttpMethod(HttpMethod.POST)
+                .addHeader("Accept", "application/json, text/json");
     }
 }
