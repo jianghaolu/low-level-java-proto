@@ -8,11 +8,9 @@ import com.azure.ai.textanalytics.models.EntityLinkingResult;
 import com.azure.ai.textanalytics.models.MultiLanguageBatchInput;
 import com.azure.ai.textanalytics.models.MultiLanguageInput;
 import com.azure.core.credential.AzureKeyCredential;
-import com.azure.core.http.ProxyOptions;
-import com.azure.core.http.netty.NettyAsyncHttpClientBuilder;
 import com.azure.core.util.Context;
+import com.azure.core.util.serializer.TypeReference;
 
-import java.net.InetSocketAddress;
 import java.util.Collections;
 
 /**
@@ -26,22 +24,21 @@ public class RecognizeLinkedEntitiesWithModels {
      */
     public static void main(String[] args) {
         // Instantiate a client that will be used to call the service.
-        TextAnalyticsModelClient client = (TextAnalyticsModelClient) new TextAnalyticsClientBuilder()
+        TextAnalyticsClient client = new TextAnalyticsClientBuilder()
                 .credential(new AzureKeyCredential("{ApiKey}"))
                 .endpoint("{Endpoint}")
-                .httpClient(new NettyAsyncHttpClientBuilder().proxy(new ProxyOptions(ProxyOptions.Type.HTTP, new InetSocketAddress("localhost", 8888))).build())
                 .build();
 
         MultiLanguageInput input = new MultiLanguageInput()
                 .setId("0").setText("Old Faithful is a geyser at Yellowstone Park.");
         MultiLanguageBatchInput batchInput = new MultiLanguageBatchInput().setDocuments(Collections.singletonList(input));
 
-        EntityLinkingResult result = client.entitiesLinking() // RequestSpec
-                .setBody(batchInput) // RequestSpec
-                .context(Context.NONE) // RequestSpec
-                .send()  // ResponseSpec
-                .asEntityLinkingResult() // Mono<EntityLinkingResponse>
-                .block();
+        EntityLinkingResult result = client.entitiesLinking() // DynamicRequest
+                .setBody(batchInput) // DynamicRequest
+                .context(Context.NONE) // DynamicRequest
+                .send()  // DynamicResponse
+                .getBody() // BinaryData
+                .toObject(TypeReference.createInstance(EntityLinkingResult.class));
 
         DocumentLinkedEntities document = result.getDocuments().get(0);
 
