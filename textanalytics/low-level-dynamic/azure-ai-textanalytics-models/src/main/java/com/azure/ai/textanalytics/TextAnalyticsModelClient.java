@@ -4,7 +4,9 @@
 
 package com.azure.ai.textanalytics;
 
-import com.azure.ai.textanalytics.http.SimpleDynamicRequest;
+import com.azure.ai.textanalytics.http.DynamicRequest;
+import com.azure.ai.textanalytics.models.EntityLinkingResult;
+import com.azure.ai.textanalytics.models.MultiLanguageBatchInput;
 import com.azure.core.annotation.ReturnType;
 import com.azure.core.annotation.ServiceClient;
 import com.azure.core.annotation.ServiceMethod;
@@ -14,7 +16,7 @@ import com.azure.core.util.serializer.ObjectSerializer;
 
 /** Initializes a new instance of the asynchronous TextAnalyticsClient type. */
 @ServiceClient(builder = TextAnalyticsClientBuilder.class, isAsync = true)
-public class TextAnalyticsClient {
+public final class TextAnalyticsModelClient {
     private final ObjectSerializer objectSerializer;
     private final HttpPipeline httpPipeline;
     private final String endpoint;
@@ -35,7 +37,7 @@ public class TextAnalyticsClient {
      * Initializes an instance of TextAnalyticsClient client.
      *
      */
-    TextAnalyticsClient(ObjectSerializer objectSerializer, HttpPipeline httpPipeline, String endpoint) {
+    TextAnalyticsModelClient(ObjectSerializer objectSerializer, HttpPipeline httpPipeline, String endpoint) {
         this.objectSerializer = objectSerializer;
         this.httpPipeline = httpPipeline;
         this.endpoint = endpoint;
@@ -51,10 +53,10 @@ public class TextAnalyticsClient {
      * @return the response.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public SimpleDynamicRequest entitiesLinking() {
-        return new SimpleDynamicRequest(objectSerializer, httpPipeline)
+    public DynamicRequest<MultiLanguageBatchInput, EntityLinkingResult> entitiesLinking() {
+        return new DynamicRequest<MultiLanguageBatchInput, EntityLinkingResult>(getObjectSerializer(), getHttpPipeline())
                 .setUrl("{Endpoint}/text/analytics/v3.1-preview.3/entities/linking")
-                .setQueryParam("Endpoint", endpoint)
+                .setQueryParam("Endpoint", getEndpoint())
                 .setHttpMethod(HttpMethod.POST)
                 .addHeader("Accept", "application/json, text/json");
     }

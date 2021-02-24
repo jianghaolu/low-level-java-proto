@@ -35,7 +35,7 @@ public class RecognizeLinkedEntitiesWithModels {
 
         EntityLinkingResult result = client.entitiesLinking() // DynamicRequest
                 .setBody(batchInput) // DynamicRequest
-                .context(Context.NONE) // DynamicRequest
+                .setContext(Context.NONE) // DynamicRequest
                 .send()  // DynamicResponse
                 .getBody() // BinaryData
                 .toObject(TypeReference.createInstance(EntityLinkingResult.class));

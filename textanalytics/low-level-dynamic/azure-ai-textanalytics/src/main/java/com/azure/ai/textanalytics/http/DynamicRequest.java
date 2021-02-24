@@ -17,15 +17,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class DynamicRequest {
-    private final ObjectSerializer objectSerializer;
-    private final HttpPipeline httpPipeline;
+public class DynamicRequest<ReqT, ResT> {
+    final ObjectSerializer objectSerializer;
+    final HttpPipeline httpPipeline;
     private HttpHeaders headers = new HttpHeaders();
     private final Map<String, String> queries = new HashMap<>();
     private HttpMethod httpMethod;
     private String url;
     private byte[] body;
-    private Context context;
+    Context context;
 
     public DynamicRequest(ObjectSerializer objectSerializer, HttpPipeline httpPipeline) {
         if (objectSerializer == null) {
@@ -50,22 +50,22 @@ public class DynamicRequest {
         return context;
     }
 
-    public DynamicRequest setUrl(String url) {
+    public DynamicRequest<ReqT, ResT> setUrl(String url) {
         this.url = url;
         return this;
     }
 
-    public DynamicRequest setHttpMethod(HttpMethod httpMethod) {
+    public DynamicRequest<ReqT, ResT> setHttpMethod(HttpMethod httpMethod) {
         this.httpMethod = httpMethod;
         return this;
     }
 
-    public DynamicRequest addHeader(String header, String value) {
+    public DynamicRequest<ReqT, ResT> addHeader(String header, String value) {
         headers.put(header, value);
         return this;
     }
 
-    public DynamicRequest addHeader(HttpHeader httpHeader) {
+    public DynamicRequest<ReqT, ResT> addHeader(HttpHeader httpHeader) {
         if (httpHeader == null) {
             throw new IllegalArgumentException("httpHeader");
         }
@@ -73,17 +73,17 @@ public class DynamicRequest {
         return this;
     }
 
-    public DynamicRequest setHeaders(HttpHeaders httpHeaders) {
+    public DynamicRequest<ReqT, ResT> setHeaders(HttpHeaders httpHeaders) {
         this.headers = httpHeaders;
         return this;
     }
 
-    public DynamicRequest setBody(String body) {
+    public DynamicRequest<ReqT, ResT> setBody(String body) {
         this.body = body.getBytes(StandardCharsets.UTF_8);
         return this;
     }
 
-    public DynamicRequest setBody(Object body) {
+    public DynamicRequest<ReqT, ResT> setBody(ReqT body) {
         try {
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             objectSerializer.serialize(outputStream, body);
@@ -95,7 +95,7 @@ public class DynamicRequest {
         return this;
     }
 
-    public DynamicRequest setPathParam(String parameterName, String value) {
+    public DynamicRequest<ReqT, ResT> setPathParam(String parameterName, String value) {
         if (!url.contains("{" + parameterName + "}")) {
             throw new IllegalArgumentException("no path param \"" + parameterName + "\"");
         }
@@ -103,12 +103,12 @@ public class DynamicRequest {
         return this;
     }
 
-    public DynamicRequest setQueryParam(String parameterName, String value) {
+    public DynamicRequest<ReqT, ResT> setQueryParam(String parameterName, String value) {
         queries.put(parameterName, value);
         return this;
     }
 
-    public DynamicRequest context(Context context) {
+    public DynamicRequest<ReqT, ResT> setContext(Context context) {
         this.context = context;
         return this;
     }
@@ -134,13 +134,13 @@ public class DynamicRequest {
         return request;
     }
 
-    public DynamicResponse send() {
+    public DynamicResponseBase<ResT> send() {
         return sendAsync().block();
     }
 
-    public Mono<DynamicResponse> sendAsync() {
+    public Mono<? extends DynamicResponseBase<ResT>> sendAsync() {
         return httpPipeline.send(buildRequest(), context)
                 .flatMap(httpResponse -> BinaryData.fromFlux(httpResponse.getBody())
-                        .map(data -> new DynamicResponse(objectSerializer, httpResponse, data)));
+                        .map(data -> new DynamicResponseBase<>(objectSerializer, httpResponse, data)));
     }
 }

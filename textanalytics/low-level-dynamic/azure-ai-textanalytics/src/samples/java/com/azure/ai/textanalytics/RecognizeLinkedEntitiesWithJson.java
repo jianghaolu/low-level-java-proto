@@ -38,7 +38,7 @@ public class RecognizeLinkedEntitiesWithJson {
 
         JsonObject deserialized = client.entitiesLinking() // DynamicRequest
                 .setBody(batchInput) // DynamicRequest
-                .context(Context.NONE) // DynamicRequest
+                .setContext(Context.NONE) // DynamicRequest
                 .send()  // DynamicResponse
                 .getBody() // BinaryData
                 .toObject(TypeReference.createInstance(JsonObject.class)); // JsonObject
