@@ -134,13 +134,13 @@ public class DynamicRequest<ReqT, ResT> {
         return request;
     }
 
-    public DynamicResponseBase<ResT> send() {
+    public DynamicResponse<ResT> send() {
         return sendAsync().block();
     }
 
-    public Mono<? extends DynamicResponseBase<ResT>> sendAsync() {
+    public Mono<? extends DynamicResponse<ResT>> sendAsync() {
         return httpPipeline.send(buildRequest(), context)
                 .flatMap(httpResponse -> BinaryData.fromFlux(httpResponse.getBody())
-                        .map(data -> new DynamicResponseBase<>(objectSerializer, httpResponse, data)));
+                        .map(data -> new DynamicResponse<>(objectSerializer, httpResponse, data)));
     }
 }

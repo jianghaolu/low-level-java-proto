@@ -64,13 +64,13 @@ public class SimpleDynamicRequest extends DynamicRequest<Object, BinaryData> {
         return (SimpleDynamicRequest) super.setContext(context);
     }
 
-    public DynamicResponse send() {
+    public SimpleDynamicResponse send() {
         return sendAsync().block();
     }
 
-    public Mono<DynamicResponse> sendAsync() {
+    public Mono<SimpleDynamicResponse> sendAsync() {
         return httpPipeline.send(buildRequest(), context)
                 .flatMap(httpResponse -> BinaryData.fromFlux(httpResponse.getBody())
-                        .map(data -> new DynamicResponse(objectSerializer, httpResponse, data)));
+                        .map(data -> new SimpleDynamicResponse(objectSerializer, httpResponse, data)));
     }
 }
