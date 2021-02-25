@@ -11,7 +11,6 @@ import com.azure.core.annotation.ServiceMethod;
 import com.azure.core.http.HttpMethod;
 import com.azure.core.http.HttpPipeline;
 import com.azure.core.util.serializer.ObjectSerializer;
-import com.azure.core.util.serializer.SerializerAdapter;
 
 /** Initializes a new instance of the asynchronous TextAnalyticsClient type. */
 @ServiceClient(builder = TextAnalyticsClientBuilder.class, isAsync = true)
@@ -47,6 +46,65 @@ public class TextAnalyticsClient {
      * href="https://aka.ms/talangs"&gt;Supported languages in Text Analytics API&lt;/a&gt; for the list of enabled
      * languages.
      *
+     * Optional query parameters include "model-version" (String), "showStats" (boolean), "stringIndexType"
+     * (boolean). The request body is of type "MultiLanguageBatchInput", in the following schema:
+     *
+     * {
+     *     documents: [
+     *         {
+     *             id: String
+     *             text: String
+     *             language: String
+     *         }
+     *     ]
+     * }
+     *
+     * The response body is of type "EntityLinkingResult", in the following schema:
+     *
+     * {
+     *     documents: [
+     *         id: String,
+     *         entities: [
+     *             name: String,
+     *             matches [
+     *                 text: String,
+     *                 confidenceScore: double,
+     *                 offset: int,
+     *                 length: int
+     *             ],
+     *             language: String,
+     *             id: String,
+     *             url: String,
+     *             dataSource: String,
+     *             bingId: String
+     *         ],
+     *         warnings: [
+     *             code: String,
+     *             message: String,
+     *             targetRef: String
+     *         ],
+     *         statistics: {
+     *             charactersCount: int,
+     *             transactionsCount: int
+     *         }
+     *     ],
+     *     errors: [
+     *         id: String
+     *         error: {
+     *             code: String,
+     *             message: String,
+     *             target: String
+     *         }
+     *     ],
+     *     statistics: {
+     *         documentsCount: int,
+     *         validDocumentsCount: int,
+     *         erroneousDocumentsCount: int,
+     *         transactionsCount: long
+     *     },
+     *     modelVersion: String
+     * }
+     *
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return a DynamicRequest where customizations can be made before sent to the service
@@ -57,6 +115,9 @@ public class TextAnalyticsClient {
                 .setUrl("{Endpoint}/text/analytics/v3.1-preview.3/entities/linking")
                 .setPathParam("Endpoint", endpoint)
                 .setHttpMethod(HttpMethod.POST)
-                .addHeader("Accept", "application/json, text/json");
+                .addHeader("Accept", "application/json, text/json")
+                .setOptionalQueryParameters("model-version", "showStats", "stringIndexType")
+                .setRequestBodyType("MultiLanguageBatchInput")
+                .setResponseBodyType("EntityLinkingResult");
     }
 }

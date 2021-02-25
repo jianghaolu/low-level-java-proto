@@ -29,6 +29,11 @@ public class DynamicRequest {
     private String url;
     private byte[] body;
     private Context context;
+    private String[] requiredPathParameters;
+    private String[] requiredQueryParameters;
+    private String[] optionalQueryParameters;
+    private String requestBodyType;
+    private String responseBodyType;
 
     /**
      * Creates an instance of the Dynamic request.
@@ -222,5 +227,53 @@ public class DynamicRequest {
         return httpPipeline.send(buildRequest(), context)
                 .flatMap(httpResponse -> BinaryData.fromFlux(httpResponse.getBody())
                         .map(data -> new DynamicResponse(objectSerializer, httpResponse, data)));
+    }
+
+    public DynamicRequest setRequiredPathParameters(String... requiredPathParameters) {
+        this.requiredPathParameters = requiredPathParameters;
+        return this;
+    }
+
+    public DynamicRequest setRequiredQueryParameters(String... requiredQueryParameters) {
+        this.requiredQueryParameters = requiredQueryParameters;
+        return this;
+    }
+
+    public DynamicRequest setOptionalQueryParameters(String... optionalQueryParameters) {
+        this.optionalQueryParameters = optionalQueryParameters;
+        return this;
+    }
+
+    public DynamicRequest setRequestBodyType(String requestBodyType) {
+        this.requestBodyType = requestBodyType;
+        return this;
+    }
+
+    public DynamicRequest setResponseBodyType(String responseBodyType) {
+        this.responseBodyType = responseBodyType;
+        return this;
+    }
+
+    public void printHelp() {
+        StringBuilder builder = new StringBuilder(httpMethod.toString()).append(" ").append(url).append("\n");
+        if (requiredPathParameters != null) {
+            builder.append("Required path parameters: ")
+                    .append(String.join(", ", requiredPathParameters)).append("\n");
+        }
+        if (requiredQueryParameters != null) {
+            builder.append("Required query parameters: ")
+                    .append(String.join(", ", requiredQueryParameters)).append("\n");
+        }
+        if (optionalQueryParameters != null) {
+            builder.append("Optional query parameters: ")
+                    .append(String.join(", ", optionalQueryParameters)).append("\n");
+        }
+        if (requestBodyType != null) {
+            builder.append("Request body type: ").append(requestBodyType).append("\n");
+        }
+        if (responseBodyType != null) {
+            builder.append("Response body type: ").append(responseBodyType).append("\n");
+        }
+        System.out.println(builder.toString());
     }
 }
