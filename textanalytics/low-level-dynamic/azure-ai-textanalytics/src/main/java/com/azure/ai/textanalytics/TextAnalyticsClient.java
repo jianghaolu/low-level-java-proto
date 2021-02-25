@@ -49,13 +49,13 @@ public class TextAnalyticsClient {
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the response.
+     * @return a DynamicRequest where customizations can be made before sent to the service
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public DynamicRequest entitiesLinking() {
+    public DynamicRequest getLinkedEntities() {
         return new DynamicRequest(objectSerializer, httpPipeline)
                 .setUrl("{Endpoint}/text/analytics/v3.1-preview.3/entities/linking")
-                .setQueryParam("Endpoint", endpoint)
+                .setPathParam("Endpoint", endpoint)
                 .setHttpMethod(HttpMethod.POST)
                 .addHeader("Accept", "application/json, text/json");
     }

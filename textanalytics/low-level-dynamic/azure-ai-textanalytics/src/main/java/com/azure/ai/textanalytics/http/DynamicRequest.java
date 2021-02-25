@@ -17,6 +17,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * A customizable HTTP request instantiated from a low level client.
+ */
 public class DynamicRequest {
     private final ObjectSerializer objectSerializer;
     private final HttpPipeline httpPipeline;
@@ -27,6 +30,12 @@ public class DynamicRequest {
     private byte[] body;
     private Context context;
 
+    /**
+     * Creates an instance of the Dynamic request.
+     *
+     * @param objectSerializer a serializer for serializing & deserializing payloads
+     * @param httpPipeline the pipeline to send the actual HTTP request
+     */
     public DynamicRequest(ObjectSerializer objectSerializer, HttpPipeline httpPipeline) {
         if (objectSerializer == null) {
             throw new IllegalArgumentException("objectSerializer");
@@ -38,33 +47,63 @@ public class DynamicRequest {
         this.httpPipeline = httpPipeline;
     }
 
+    /**
+     * @return the underlying serializer used by this DynamicRequest
+     */
     public ObjectSerializer getObjectSerializer() {
         return objectSerializer;
     }
 
+    /**
+     * @return the pipeline to sending HTTP requests used by this DynamicRequest
+     */
     public HttpPipeline getHttpPipeline() {
         return httpPipeline;
     }
 
+    /**
+     * @return the context object for the HTTP pipeline
+     */
     public Context getContext() {
         return context;
     }
 
+    /**
+     * Sets the url for the HTTP request
+     * @param url the URL for the request
+     * @return the modified DynamicRequest object
+     */
     public DynamicRequest setUrl(String url) {
         this.url = url;
         return this;
     }
 
+    /**
+     * Sets the url for the HTTP request
+     * @param url the URL for the request
+     * @return the modified DynamicRequest object
+     */
     public DynamicRequest setHttpMethod(HttpMethod httpMethod) {
         this.httpMethod = httpMethod;
         return this;
     }
 
+    /**
+     * Adds a header to the HTTP request.
+     * @param header the header key
+     * @param value the header value
+     * @return the modified DynamicRequest object
+     */
     public DynamicRequest addHeader(String header, String value) {
         headers.put(header, value);
         return this;
     }
 
+    /**
+     * Adds a header to the HTTP request
+     * @param httpHeader the header to add
+     * @return the modified DynamicRequest object
+     */
     public DynamicRequest addHeader(HttpHeader httpHeader) {
         if (httpHeader == null) {
             throw new IllegalArgumentException("httpHeader");
@@ -73,16 +112,31 @@ public class DynamicRequest {
         return this;
     }
 
+    /**
+     * Sets the headers on the HTTP request
+     * @param httpHeaders the new headers to replace all existing headers
+     * @return the modified DynamicRequest object
+     */
     public DynamicRequest setHeaders(HttpHeaders httpHeaders) {
         this.headers = httpHeaders;
         return this;
     }
 
+    /**
+     * Sets the body content on the HTTP request
+     * @param body the serialized body content
+     * @return the modified DynamicRequest object
+     */
     public DynamicRequest setBody(String body) {
         this.body = body.getBytes(StandardCharsets.UTF_8);
         return this;
     }
 
+    /**
+     * Sets the body on the HTTP request
+     * @param body the body object that will be serialized
+     * @return the modified DynamicRequest object
+     */
     public DynamicRequest setBody(Object body) {
         try {
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -95,6 +149,13 @@ public class DynamicRequest {
         return this;
     }
 
+    /**
+     * Sets the value for a specific path parameter in the URL. The path parameter must be wrapped in a pair of
+     * curly braces, like "{paramName}".
+     * @param parameterName the path parameter's name in the curly braces
+     * @param value the String value to replace the path parameter
+     * @return the modified DynamicRequest object
+     */
     public DynamicRequest setPathParam(String parameterName, String value) {
         if (!url.contains("{" + parameterName + "}")) {
             throw new IllegalArgumentException("no path param \"" + parameterName + "\"");
@@ -103,17 +164,28 @@ public class DynamicRequest {
         return this;
     }
 
-    public DynamicRequest setQueryParam(String parameterName, String value) {
+    /**
+     * Adds a query parameter to the request URL.
+     * @param parameterName the name of the query parameter
+     * @param value the value of the query parameter
+     * @return the modified DynamicRequest object
+     */
+    public DynamicRequest addQueryParam(String parameterName, String value) {
         queries.put(parameterName, value);
         return this;
     }
 
-    public DynamicRequest context(Context context) {
+    /**
+     * Sets the context on the request
+     * @param context the Context object
+     * @return the modified DynamicRequest object
+     */
+    public DynamicRequest setContext(Context context) {
         this.context = context;
         return this;
     }
 
-    protected HttpRequest buildRequest() {
+    private HttpRequest buildRequest() {
         if (url == null) {
             throw new IllegalArgumentException("url");
         }
@@ -134,10 +206,18 @@ public class DynamicRequest {
         return request;
     }
 
+    /**
+     * Sends the request through the HTTP pipeline synchronously.
+     * @return the dynamic response received from the API
+     */
     public DynamicResponse send() {
         return sendAsync().block();
     }
 
+    /**
+     * Sends the request through the HTTP pipeline asynchronously.
+     * @return the reactor publisher for the dynamic response to subscribe to
+     */
     public Mono<DynamicResponse> sendAsync() {
         return httpPipeline.send(buildRequest(), context)
                 .flatMap(httpResponse -> BinaryData.fromFlux(httpResponse.getBody())

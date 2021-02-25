@@ -228,13 +228,6 @@ public final class TextAnalyticsClientBuilder {
         if (objectSerializer == null) {
             this.objectSerializer = JsonSerializerProviders.createInstance();
         }
-        TextAnalyticsClient client;
-//        try {
-//            Class<?> modelClient = Class.forName("TextAnalyticsModelClient");
-//            client = (TextAnalyticsClient) modelClient.getConstructor(SerializerAdapter.class, HttpPipeline.class, String.class).newInstance(objectSerializer, pipeline, endpoint);
-//        } catch (Exception e) {
-            client = new TextAnalyticsClient(objectSerializer, pipeline, endpoint);
-//        }
-        return client;
+        return new TextAnalyticsClient(objectSerializer, pipeline, endpoint);
     }
 }
