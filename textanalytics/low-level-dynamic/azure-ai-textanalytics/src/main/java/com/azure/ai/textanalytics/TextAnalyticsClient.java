@@ -468,4 +468,77 @@ public class TextAnalyticsClient {
                 .addHeader("Accept", "application/json, text/json")
                 .setOptionalQueryParameters("model-version", "showStats");
     }
+
+    /**
+     * The API returns a list of strings denoting the key phrases in the input text. See the &lt;a
+     * href="https://aka.ms/talangs"&gt;Supported languages in Text Analytics API&lt;/a&gt; for the list of enabled
+     * languages.
+     *
+     * <h2>Optional Query Parameters</h2>
+     * <table>
+     *     <th><td>Name</td><td>Type</td><td>Description</td></th>
+     *     <tr><td>model-version</td><td>String</td><td>This value indicates which model will be used for scoring. If a
+     *          model-version is not specified, the API should default to the latest, non-preview version.</td></tr>
+     *     <tr><td>showStats</td><td>boolean</td><td>if set to true, response will contain request and document level
+     *          statistics.</td></tr>
+     * </table>
+     *
+     * <h2>Request Body Schema</h2>
+     *
+     * {
+     *     documents: [
+     *         {
+     *             id: String (required),
+     *             text: String (required),
+     *             language: String
+     *         }
+     *     ] (required)
+     * }
+     *
+     * <h2>Response Body Schema</h2>
+     *
+     * {
+     *     documents: [{
+     *         id: String,
+     *         keyPhrases: [String],
+     *         warnings: [{
+     *             code: String,
+     *             message: String,
+     *             targetRef: String
+     *         }],
+     *         statistics: {
+     *             charactersCount: int,
+     *             transactionsCount: int
+     *         }
+     *     }],
+     *     errors: [{
+     *         id: String
+     *         error: {
+     *             code: String,
+     *             message: String,
+     *             target: String
+     *         }
+     *     }],
+     *     statistics: {
+     *         documentsCount: int,
+     *         validDocumentsCount: int,
+     *         erroneousDocumentsCount: int,
+     *         transactionsCount: long
+     *     },
+     *     modelVersion: String
+     * }
+     *
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a DynamicRequest where customizations can be made before sent to the service
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public DynamicRequest getKeyPhrases() {
+        return new DynamicRequest(objectSerializer, httpPipeline)
+                .setUrl("{Endpoint}/text/analytics/v3.1-preview.1/keyPhrases")
+                .setPathParam("Endpoint", endpoint)
+                .setHttpMethod(HttpMethod.POST)
+                .addHeader("Accept", "application/json, text/json")
+                .setOptionalQueryParameters("model-version", "showStats");
+    }
 }
