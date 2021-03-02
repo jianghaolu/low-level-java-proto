@@ -10,11 +10,12 @@ import com.azure.core.util.serializer.TypeReference;
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
+import java.io.StringReader;
 
 /**
  * Sample demonstrates how to recognize the linked entities of document.
  */
-public class RecognizeLinkedEntitiesWithJson {
+public class GetLinkedEntitiesWithJson {
     /**
      * Main method to invoke this demo about how to recognize the linked entities of document.
      *
@@ -23,8 +24,8 @@ public class RecognizeLinkedEntitiesWithJson {
     public static void main(String[] args) {
         // Instantiate a client that will be used to call the service.
         TextAnalyticsClient client = new TextAnalyticsClientBuilder()
-                .credential(new AzureKeyCredential("{ApiKey}"))
-                .endpoint("{Endpoint}")
+                .credential(new AzureKeyCredential("<api-key-from-portal>"))
+                .endpoint("<endpoint-from-portal>")
                 .build();
 
         JsonObject document = Json.createObjectBuilder()
@@ -36,17 +37,19 @@ public class RecognizeLinkedEntitiesWithJson {
                 .add("documents", Json.createArrayBuilder().add(document).build())
                 .build();
 
-        JsonObject deserialized = client.getLinkedEntities() // DynamicRequest
-                .setBody(batchInput) // DynamicRequest
+        String responseBody = client.getLinkedEntities() // DynamicRequest
+                .setBody(batchInput.toString()) // DynamicRequest
                 .setContext(Context.NONE) // DynamicRequest
                 .send()  // DynamicResponse
                 .getBody() // BinaryData
-                .toObject(TypeReference.createInstance(JsonObject.class)); // JsonObject
+                .toString(); // String
+
+        JsonObject deserialized = Json.createReader(new StringReader(responseBody)).readObject();
 
         if (deserialized != null && deserialized.containsKey("documents")) {
-            JsonArray documents = deserialized.getJsonArray("documents");
+            JsonArray entities = deserialized.getJsonArray("documents").get(0).asJsonObject().getJsonArray("entities");
 
-            documents.forEach(linkedEntity -> {
+            entities.forEach(linkedEntity -> {
                 JsonObject entity = linkedEntity.asJsonObject();
                 System.out.println("Linked Entities:");
                 System.out.printf("Name: %s, entity ID in data source: %s, URL: %s, data source: %s,"
@@ -54,7 +57,7 @@ public class RecognizeLinkedEntitiesWithJson {
                         entity.getString("name"), entity.getString("dataSource"), entity.getString("url"),
                         entity.getString("dataSource"), entity.getString("bingId"));
                 entity.getJsonArray("matches").forEach(entityMatch -> {
-                    JsonObject match = entity.asJsonObject();
+                    JsonObject match = entityMatch.asJsonObject();
                     System.out.printf(
                             "Matched entity: %s, confidence score: %f.%n",
                             match.getString("text"), match.getJsonNumber("confidenceScore").doubleValue());

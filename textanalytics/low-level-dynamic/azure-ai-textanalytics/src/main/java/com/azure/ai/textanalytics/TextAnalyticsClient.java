@@ -123,7 +123,7 @@ public class TextAnalyticsClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public DynamicRequest getLinkedEntities() {
         return new DynamicRequest(objectSerializer, httpPipeline)
-                .setUrl("{Endpoint}/text/analytics/v3.1-preview.1/entities/linking")
+                .setUrl("{Endpoint}/text/analytics/v3.1-preview.3/entities/linking")
                 .setPathParam("Endpoint", endpoint)
                 .setHttpMethod(HttpMethod.POST)
                 .addHeader("Accept", "application/json, text/json")
@@ -207,7 +207,7 @@ public class TextAnalyticsClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public DynamicRequest getEntities() {
         return new DynamicRequest(objectSerializer, httpPipeline)
-                .setUrl("{Endpoint}/text/analytics/v3.1-preview.1/entities/recognition/general")
+                .setUrl("{Endpoint}/text/analytics/v3.1-preview.3/entities/recognition/general")
                 .setPathParam("Endpoint", endpoint)
                 .setHttpMethod(HttpMethod.POST)
                 .addHeader("Accept", "application/json, text/json")
@@ -294,7 +294,7 @@ public class TextAnalyticsClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public DynamicRequest getEntitiesPii() {
         return new DynamicRequest(objectSerializer, httpPipeline)
-                .setUrl("{Endpoint}/text/analytics/v3.1-preview.1/entities/recognition/pii")
+                .setUrl("{Endpoint}/text/analytics/v3.1-preview.3/entities/recognition/pii")
                 .setPathParam("Endpoint", endpoint)
                 .setHttpMethod(HttpMethod.POST)
                 .addHeader("Accept", "application/json, text/json")
@@ -385,7 +385,7 @@ public class TextAnalyticsClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public DynamicRequest getSentiment() {
         return new DynamicRequest(objectSerializer, httpPipeline)
-                .setUrl("{Endpoint}/text/analytics/v3.1-preview.1/sentiment")
+                .setUrl("{Endpoint}/text/analytics/v3.1-preview.3/sentiment")
                 .setPathParam("Endpoint", endpoint)
                 .setHttpMethod(HttpMethod.POST)
                 .addHeader("Accept", "application/json, text/json")
@@ -462,7 +462,7 @@ public class TextAnalyticsClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public DynamicRequest getlanguages() {
         return new DynamicRequest(objectSerializer, httpPipeline)
-                .setUrl("{Endpoint}/text/analytics/v3.1-preview.1/languages")
+                .setUrl("{Endpoint}/text/analytics/v3.1-preview.3/languages")
                 .setPathParam("Endpoint", endpoint)
                 .setHttpMethod(HttpMethod.POST)
                 .addHeader("Accept", "application/json, text/json")
@@ -535,7 +535,7 @@ public class TextAnalyticsClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public DynamicRequest getKeyPhrases() {
         return new DynamicRequest(objectSerializer, httpPipeline)
-                .setUrl("{Endpoint}/text/analytics/v3.1-preview.1/keyPhrases")
+                .setUrl("{Endpoint}/text/analytics/v3.1-preview.3/keyPhrases")
                 .setPathParam("Endpoint", endpoint)
                 .setHttpMethod(HttpMethod.POST)
                 .addHeader("Accept", "application/json, text/json")

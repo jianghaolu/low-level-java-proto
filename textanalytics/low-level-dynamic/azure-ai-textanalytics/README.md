@@ -36,7 +36,7 @@ Operations on the Text Analytics client consume and produce JSON data. Instead o
 
 `DynamicRequest` and `DynamicResponse` are designed for interacting with the REST APIs. All the APIs in `TextAnalyticClient` return a `DynamicRequest` where you can call `send()` or `sendAsync()` to get a `DynamicResponse`.
 
-You can set path parameters, query parameters, headers, and the request body on a `DynamicRequest` object. You can serialize the request body into a String with your preferred serializer and call `.setBody(String)` or use the built-in JSON serializer by calling `.setBody(Object)`. You can also get the current state of a `DynamicRequest` by calling `printHelp()` on it.
+You can set path parameters, query parameters, headers, and the request body on a `DynamicRequest` object. You can serialize the request body into a String with your preferred serializer and call `.setBody(String)` or use a JSON serializer by calling `.setBody(Object)`. You can also get the current state of a `DynamicRequest` by calling `printHelp()` on it.
 
 Once you have a `DynamicResponse` you can get the response status code, headers, and the response body. The response body is returned as a `BinaryData` where you can get the String value and deserialize with your preferred serializer.
  
@@ -46,322 +46,128 @@ For example the client has the following API method:
 |-----------------------|-------------------------|---------------------------------------------------------------------------|
 | `getSentiment` | `DynamicRequest`        | Returns a `DynamicRequest` which can be modified and then sent.           |
 
-We can call this API which determines if text is positive or negative.
+We can call this API which determines if text is positive or negative. In the following example, we are using [JSON-P](https://javaee.github.io/jsonp/getting-started.html) to build and parse the JSON objects.
 
-```C# Snippet:DynamicRequestAndResponse
-DynamicRequest req = client.GetSentimentRequest();
+```java Snippet:DynamicRequestAndResponse
+JsonObject document = Json.createObjectBuilder()
+    .add("id", "0")
+    .add("text", "Great atmosphere. Close to plenty of restaurants, hotels, and transit! Staff are friendly and helpful.")
+    .add("language", "en")
+    .build();
 
-req.DynamicBody.documents = new JsonData[1];
-req.DynamicBody.documents[0] = new JsonData();
-req.DynamicBody.documents[0].language = "en";
-req.DynamicBody.documents[0].id = "1";
-req.DynamicBody.documents[0].text = "Great atmosphere. Close to plenty of restaurants, hotels, and transit! Staff are friendly and helpful.";
+JsonObject batchInput = Json.createObjectBuilder()
+    .add("documents", Json.createArrayBuilder().add(document).build())
+    .build();
 
-DynamicResponse res = req.Send();
+DynamicRequest req = client.getSentiment().setBody(batchInput.toString());
+DynamicResponse res = req.send();
 
-if (res.Status != 200 /*OK*/)
+if (res.getStatusCode() != 200 /*OK*/)
 {
     // The call failed for some reason, log a message
-    Console.Error.WriteLine($"Requested Failed with status {res.Status}: ${res.Body.ToJsonString()}");
+    System.out.println(String.format("Requested Failed with status %s: %s", res.getStatusCode(), res.getBody().toString()));
 }
 else
 {
-    Console.WriteLine($"Sentiment of document is {(string)res.DynamicBody.documents[0].sentiment}");
+    String responseBody = res.getBody().toString();
+    JsonObject deserialized = Json.createReader(new StringReader(responseBody)).readObject();
+    System.out.println(String.format("Sentiment of document is %s", deserialized.getJsonArray("documents").get(0).asJsonObject().getString("sentiment")));
 }
 ```
 
 **Note**: You must explicitly check the Status value on the response to understand if the operation was successful. The methods which send a request **do not** throw an exception if the service returns a non 2XX HTTP Status Code.
 
+### BinaryData
 
-### JsonData
+`BinaryData` is a class designed to help users parse response bodies into strings, byte arrays, InputStreams, and model type objects.
 
-`JsonData` is a representation of a JSON Document. It is designed to make it easy to interact with REST based services using JSON.
-
-#### Constructing JSON Documents
-
-`JsonData` represents a JSON Value. The zero argument constructor for `JsonData` produces an empty object:
-
-```C# Snippet:DefaultConstructor
-var obj = new JsonData();
-Console.WriteLine(obj.Kind == JsonValueKind.Object); // prints True
-Console.WriteLine(obj.Properties.Count() == 0); // prints True
+```java
+// build DynamicRequest
+DynamicResponse res = req.send();
+BinaryData body = res.getBody();
+String bodyString = body.toString();
+byte[] bodyByteArray = body.toBytes();
+InputStream bodyInputStream = body.toStream();
 ```
 
-You can also create a `JsonData` from a primitive value:
+### Models pack
 
-```C# Snippet:PrimitiveConstructor
-var trueValue = new JsonData(true); // represents the document: true
-var stringValue = new JsonData("Hello, JsonData"); // represents the document: "Hello, JsonData"
+A models-pack contains all the models you may use to conveniently serialize and deserialize JSON objects required for the APIs. To serialize and deserialize JSON objects, you will need to add a dependency to your classpath:
+
+```xml
+<dependency>
+  <groupId>com.azure</groupId>
+  <artifactId>azure-core-serializer-json-jackson</artifactId>
+  <version>1.0.2</version>
+</dependency>
 ```
 
-Or from an array:
+You will then be able to pass the request model directly to the `setBody(Object)` method on `DynamicRequest`, and deserialize a `BinaryData` directly to the response model:
 
-```C# Snippet:ArrayConstructor
-var arr = new JsonData(new[] {1, 2, 3}); // represents the document: [1, 2, 3]
-```
+```java
+TextAnalyticsClient client = new TextAnalyticsClientBuilder()
+    .credential(new AzureKeyCredential("{ApiKey}"))
+    .endpoint("{Endpoint}")
+    .build();
 
-Or from an arbitrary object that can be serialized with `System.Text.Json` (this includes anonymous types):
+MultiLanguageInput input = new MultiLanguageInput()
+    .setId("0").setText("Old Faithful is a geyser at Yellowstone Park.");
+MultiLanguageBatchInput batchInput = new MultiLanguageBatchInput().setDocuments(Collections.singletonList(input));
 
-```C# Snippet:ObjectConstructor
-var doc = new JsonData(new { message = "Hello, JsonData" }); // represents the document: { "message": "Hello, JsonData" }
-```
-
-There are a series of `From` methods which can be used to create a `JsonData` from existing JSON text (either as a `string` or from `byte`s):
-
-```C# Snippet:FromXYZ
-var docFromString = JsonData.FromString(File.ReadAllText("<path-to-utf8-json-file>"));
-var docFromBytes = JsonData.FromBytes(File.ReadAllBytes("<path-to-utf8-json-file>"));
-```
-
-#### Modifying `JsonData`
-
-If a `JsonData` represents an Array or Object, existing values or properties can be modified, and new values or properties can be added:
-
-##### Modifying Objects
-
-To modify an object, you can use either the indexer, or the `Set` instance method:
-
-```C# Snippet:ModifyObjects
-var doc = new JsonData() ;// represents the document: {}
-doc["message"] = "Hello, JsonData"; // doc now represents the document { "message": "Hello, JsonData" }
-doc.Set("message", "This works, too!"); // doc now represents the document { "message": "This works, too!" }
-```
-
-In addition, you can use `SetEmptyObject` and `SetEmptyArray` to add a property with an empty array or object as a value. These methods return the newly created value, so you can modify it:
-
-```C# Snippet:SetEmpty
-var doc = new JsonData(); // represents the document: {}
-var wrapped = doc.SetEmptyObject("wrapped"); // doc now represents the document { "wrapped": { } }
-wrapped["message"] = "Hello, JsonData!"; // doc now represents the document { "wrapped": { "message": "This works, too!" } }
-```
-
-**Note**: The type of the indexer property is `JsonData`. While there are implicit conversions from primitive CLR values and `string` to `JsonData`, there isn't one for objects, so you may need to explicitly call `new JsonData(<value>)` when assigning to the indexer property.
-
-##### Modifying Arrays
-
-To modify an array, use the indexer:
-
-```C# Snippet:ArraySetIndexer
-var doc = new JsonData(new[] { "Hello, JsonData!" }); // represents the document [ "Hello, JsonData!" ]
-doc[0] = "This works!"; // represents the document [ "This works!" ]
-```
-
-To add a new value to the end of the array, use the `Add` method:
-
-```C# Snippet:ArrayAdd
-var doc = new JsonData(new string[] {}); // represents the document [ ]
-doc.Add("This works!"); // represents the document [ "This works!" ]
-```
-
-There are also helper methods for adding an empty array or object to the end of this array:
-
-```C# Snippet:AddEmpty
-var doc = new JsonData(new object[] {}); // represents the document: [ ]
-var wrapped = doc.AddEmptyObject(); // doc now represents the document [ { } ]
-wrapped["message"] = "Hello, JsonData!"; // doc now represents the document [ { "message": "This works, too!" } ]
-```
-
-**Note**: The type of the indexer property is `JsonData`. While there are implicit conversions from primitive CLR values and `string` to `JsonData`, there isn't one for objects, so you may need to explicitly call `new JsonData(<value>)` when assigning to the indexer property.
-
-#### Reading JSON Documents
-
-There are multiple ways to read data from a `JsonData`
-
-##### Using DOM APIs
-
-If a `JsonData` represents a primitive value or a string, you can cast to the corresponding CLR type:
-
-```C# Snippet:CLRCasts
-var oneDoc = new JsonData(1);           // represents the document: 1
-int oneValue = (int)oneDoc;             // works, oneValue is 1
-
-var stringDoc = new JsonData("hello");  // represents the document: "hello"
-string stringValue = (string)stringDoc;     // works, stringValue is the string "hello"
-```
-
-If the `JsonData` represents an object, you can use the `Properties` property to list all the properties of an object:
-
-```C# Snippet:PropertiesProperty
-var objectDoc = new JsonData(new { key1 = "one", key2 = "two" }); // represents the document: { "key1": "one", "key2": "two" }
-// the loop prints
-// key1
-// key2
-foreach (string propertyName in objectDoc.Properties)
-{
-    Console.WriteLine(propertyName);
-}
-```
-
-And you can fetch a specific property by name, using the indexer:
-
-```C# Snippet:GetPropertyIndexer
-var objectDoc = new JsonData(new { key1 = "one", key2 = "two" });
-Console.WriteLine(objectDoc["key1"]); // prints "one"
-```
-
-Or by using `Get`, which will return "null" if the object does not have a property by that name (compared to the indexer which would throw an `InvalidOperationException` is the property was not present):
-
-```C# Snippet:GetPropertyWithGet
-var objectDoc = new JsonData(new { key1 = "one", key2 = "two" }); // represents the document: { "key1": "one", "key2": "two" }
-Console.WriteLine(objectDoc.Get("key1"));               // prints "one"
-Console.WriteLine(objectDoc.Get("missingKey") == null); // prints "true"
-Console.WriteLine(objectDoc["missingKey"]);              // throws InvalidOperationException.
-```
-
-Arrays are similar to Objects, you can use the indexer to fetch a specific element from the array:
-
-```C# Snippet:ArrayIndexer
-var arrayDoc = new JsonData(new[] { "Hello", "JsonData" }); // represents the document: [ "Hello", "JsonData" ]
-Console.WriteLine(arrayDoc[0]);   // prints "Hello"
-Console.WriteLine(arrayDoc[1]);   // prints "JsonData"
-```
-
-You can also use the `Items` property to get an `IEnumerable<JsonData>`, which you can use to enumerate the values:
-
-```C# Snippet:ItemsProperty
-var arrayDoc = new JsonData(new[] { "Hello", "JsonData" }); // represents the document: [ "Hello", "JsonData" ]
-foreach (JsonData item in arrayDoc.Items)
-{
-    Console.WriteLine((string)item);
-}
-```
-
-Combined, this provides a nice way to access values.  Consider the `JsonData` that represents the document:
-
-```json
-{
-  "students": [
-      {
-          "name": "Matt",
-          "address": [ "1 Microsoft Way", "Building 18", "Redmond, WA, 98034" ]
-      },
-      {
-          "name": "Bill",
-          "address": [ "1 Microsoft Way", "Building 34", "Redmond, WA, 98034" ]
-      }
-  ]
-}
-```
-
-You can access the inner values with ease:
-
-```C# Snippet:DOMAccess
-JsonData doc = JsonData.FromString(/* a string representing the above document */);
-Console.WriteLine(doc["students"][0]["name"]); // prints "Matt"
-Console.WriteLine(doc["students"][1]["address"][1]); // prints "Building 34"
-```
-
-##### Using `dynamic`
-
-You may also use the `dynamic` keyword with `JsonData`. It allows you to write `doc.propertyName` instead of `doc["propertyName"]`:
-
-```C# Snippet:Dynamic
-dynamic doc = JsonData.FromString(/* a string representing the above document */);
-Console.WriteLine(doc.students[0].name); // prints "Matt"
-Console.WriteLine(doc.students[1].address[1]); // prints "Building 34"
-```
-
-And you can cast back to a CLR type as you might expect:
-
-```C# Snippet:DynamicCast
-dynamic doc = JsonData.FromString(/* a string representing the above document */);
-string name = (string)doc.students[0].name; // name is set to the string "Matt"
-string address = (string) doc.students[1].address[1]; // address is set to the string "Building 34"
-```
-
-##### Conversions to and from POCOs
-
-As we saw earlier, `JsonData` can be constructed from an arbitrary CLR object. When this happens, the object is serialized using `System.Text.Json`. You can also convert a `JsonData` *to* a CLR object:
-
-Imagine we have the following class definition:
-
-```C# Snippet:ModelTypeDefinition
-public class Student
-{
-    public string name { get; }
-    public string address { get; }
-}
-```
-
-Then we can convert to it:
-
-```C# Snippet:ConvertToModel
-JsonData doc = JsonData.FromString(/* a string representing the above document */);
-Student[] students = doc["students"].To<Student[]>();
-Console.WriteLine(students.Length); // prints 2
-Console.WriteLine(students[0].name); // prints "Matt"
-```
-
-And since `System.Text.Json` is used for the deserialization, you can customize your model classes to give nicer names than what might be in the JSON:
-
-```C# Snippet:ModelTypeDefinitionWithPropertyNames
-public class Student
-{
-    [JsonPropertyName("name")]
-    public string Name { get; }
-
-    [JsonPropertyName("address")]
-    public string Address { get; }
-}
-```
-
-And then use nicer names in our code:
-
-```C# Snippet:ConvertToModelWithPropertyNames
-JsonData doc = JsonData.FromString(/* a string representing the above document */);
-Student[] students = doc["students"].To<Student[]>();
-Console.WriteLine(students.Length); // prints 2
-Console.WriteLine(students[0].Name); // prints "Matt"
-```
-
-##### `ToString()`
-
-The implementation of `ToString()` works as follows:
-
-- If the document represents a primitive value (number, boolean, or string), the value is converted to it's corresponding CLR type, and `ToString()` is called on that.
-- If the document represents an array or object, the documented is converted into a JSON string using System.Text.Json's default configuration and the string is returned.
-- If the document represents a single null value, The string `<null>` is returned.
-
-```C# Snippet:JsonDataToString
-Console.WriteLine(new JsonData(1)); // prints 1
-Console.WriteLine(new JsonData(true)); // prints True
-Console.WriteLine(new JsonData(null)); // prints <null>
-Console.WriteLine(new JsonData("Hello, JsonData")); // prints Hello, JsonData
-```
-
-You may also use `ToJsonString` to get a string representation of the JSON document. The behavior is slightly different than `ToString()` because this method always returns valid JSON:
-
-```C# Snippet:JsonDataToJsonString
-Console.WriteLine(new JsonData(1).ToJsonString()); // prints 1
-Console.WriteLine(new JsonData(true).ToJsonString()); // prints true
-Console.WriteLine(new JsonData(null).ToJsonString()); // prints null
-Console.WriteLine(new JsonData("Hello, JsonData").ToJsonString()); // prints "Hello, JsonData"
+EntityLinkingResult result = client.getLinkedEntities() // DynamicRequest
+    .setBody(batchInput) // DynamicRequest
+    .setContext(Context.NONE) // DynamicRequest
+    .send()  // DynamicResponse
+    .getBody() // BinaryData
+    .toObject(TypeReference.createInstance(EntityLinkingResult.class));
 ```
 
 ## Examples
 
 ### Detect Language
 
-```C# Snippet:DetectLanguagesSample
-TextAnalyticsClient client = new TextAnalyticsClient(new Uri("<endpoint-from-portal>"), new AzureKeyCredential("<api-key-from-portal>"));
-DynamicRequest req = client.GetLanguagesRequest();
-req.DynamicBody.documents = new JsonData[3];
-req.DynamicBody.documents[0] = new JsonData();
-req.DynamicBody.documents[0].countryHint = "US";
-req.DynamicBody.documents[0].id = "1";
-req.DynamicBody.documents[0].text = "Hello world";
+```Java Snippet:DetectLanguagesSample
+TextAnalyticsClient client = new TextAnalyticsClientBuilder()
+    .credential(new AzureKeyCredential("<api-key>"))
+    .endpoint("<endpoint>")
+    .build();
 
-req.DynamicBody.documents[1] = new JsonData();
-req.DynamicBody.documents[1].id = "2";
-req.DynamicBody.documents[1].text = "Bonjour tout le monde";
+JsonObject doc1 = Json.createObjectBuilder()
+    .add("id", "1")
+    .add("text", "Hello world")
+    .add("countryHint", "US")
+    .build();
 
-req.DynamicBody.documents[2] = new JsonData();
-req.DynamicBody.documents[2].id = "3";
-req.DynamicBody.documents[2].text = "La carretera estaba atascada. Había mucho tráfico el día de ayer.";
+JsonObject doc2 = Json.createObjectBuilder()
+    .add("id", "2")
+    .add("text", "Bonjour tout le monde")
+    .build();
 
-DynamicResponse res = req.Send();
+JsonObject doc3 = Json.createObjectBuilder()
+    .add("id", "3")
+    .add("text", "La carretera estaba atascada. Había mucho tráfico el día de ayer.")
+    .build();
 
-Console.WriteLine($"Status is {res.Status} and the body of the response is: {res.DynamicBody.ToJsonString()})");
+JsonObject batchInput = Json.createObjectBuilder()
+    .add("documents", Json.createArrayBuilder().add(doc1).add(doc2).add(doc3).build())
+    .build();
+
+String responseBody = client.getlanguages() // DynamicRequest
+    .setBody(batchInput.toString()) // DynamicRequest
+    .setContext(Context.NONE) // DynamicRequest
+    .send()  // DynamicResponse
+    .getBody() // BinaryData
+    .toString(); // String
+
+JsonObject deserialized = Json.createReader(new StringReader(responseBody)).readObject();
+
+if (deserialized != null && deserialized.containsKey("documents")) {
+    deserialized.getJsonArray("documents").forEach(value -> {
+        System.out.println(String.format("Detected language is %s with confidence score %f",
+                value.asJsonObject().getJsonObject("detectedLanguage").getString("name"),
+                value.asJsonObject().getJsonObject("detectedLanguage").getJsonNumber("confidenceScore").doubleValue()));
+    });
+}
 ```
 
 ## Troubleshooting
