@@ -42,8 +42,8 @@ public class TextAnalyticsClient {
     }
 
     /**
-     * The API returns a list of recognized entities with links to a well-known knowledge base. See the &lt;a
-     * href="https://aka.ms/talangs"&gt;Supported languages in Text Analytics API&lt;/a&gt; for the list of enabled
+     * The API returns a list of recognized entities with links to a well-known knowledge base. See the <a
+     * href="https://aka.ms/talangs">Supported languages in Text Analytics API</a> for the list of enabled
      * languages.
      *
      * <h2>Optional Query Parameters</h2>
@@ -60,7 +60,7 @@ public class TextAnalyticsClient {
      * </table>
      *
      * <h2>Request Body Schema</h2>
-     *
+     * <pre>{@code
      * {
      *     documents: [
      *         {
@@ -70,9 +70,9 @@ public class TextAnalyticsClient {
      *         }
      *     ] (required)
      * }
-     *
+     * }</pre>
      * <h2>Response Body Schema</h2>
-     *
+     * <pre>{@code
      * {
      *     documents: [
      *         id: String,
@@ -116,6 +116,7 @@ public class TextAnalyticsClient {
      *     },
      *     modelVersion: String
      * }
+     * }</pre>
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -133,8 +134,8 @@ public class TextAnalyticsClient {
 
     /**
      * The API returns a list of general named entities in a given document. For the list of supported entity types,
-     * check &lt;a href="https://aka.ms/taner"&gt;Supported Entity Types in Text Analytics API&lt;/a&gt;. See the &lt;a
-     * href="https://aka.ms/talangs"&gt;Supported languages in Text Analytics API&lt;/a&gt; for the list of enabled
+     * check <a href="https://aka.ms/taner">Supported Entity Types in Text Analytics API</a>. See the <a
+     * href="https://aka.ms/talangs">Supported languages in Text Analytics API</a> for the list of enabled
      * languages.
      *
      * <h2>Optional Query Parameters</h2>
@@ -151,7 +152,7 @@ public class TextAnalyticsClient {
      * </table>
      *
      * <h2>Request Body Schema</h2>
-     *
+     * <pre>{@code
      * {
      *     documents: [
      *         {
@@ -161,9 +162,10 @@ public class TextAnalyticsClient {
      *         }
      *     ] (required)
      * }
+     * }</pre>
      *
      * <h2>Response Body Schema</h2>
-     *
+     * <pre>{@code
      * {
      *     documents: [{
      *         id: String,
@@ -201,6 +203,7 @@ public class TextAnalyticsClient {
      *     },
      *     modelVersion: String
      * }
+     * }</pre>
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -218,9 +221,9 @@ public class TextAnalyticsClient {
 
     /**
      * The API returns a list of entities with personal information (\"SSN\", \"Bank Account\" etc) in the document. For
-     * the list of supported entity types, check &lt;a href="https://aka.ms/tanerpii"&gt;Supported Entity Types in Text
-     * Analytics API&lt;/a&gt;. See the &lt;a href="https://aka.ms/talangs"&gt;Supported languages in Text Analytics
-     * API&lt;/a&gt; for the list of enabled languages.
+     * the list of supported entity types, check <a href="https://aka.ms/tanerpii">Supported Entity Types in Text
+     * Analytics API</a>. See the <a href="https://aka.ms/talangs">Supported languages in Text Analytics
+     * API</a> for the list of enabled languages.
      *
      * <h2>Optional Query Parameters</h2>
      * <table border="1">
@@ -238,7 +241,7 @@ public class TextAnalyticsClient {
      * </table>
      *
      * <h2>Request Body Schema</h2>
-     *
+     * <pre>{@code
      * {
      *     documents: [
      *         {
@@ -248,9 +251,10 @@ public class TextAnalyticsClient {
      *         }
      *     ] (required)
      * }
+     * }</pre>
      *
      * <h2>Response Body Schema</h2>
-     *
+     * <pre>{@code
      * {
      *     documents: [{
      *         id: String,
@@ -289,6 +293,7 @@ public class TextAnalyticsClient {
      *     },
      *     modelVersion: String
      * }
+     * }</pre>
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -324,7 +329,7 @@ public class TextAnalyticsClient {
      * </table>
      *
      * <h2>Request Body Schema</h2>
-     *
+     * <pre>{@code
      * {
      *     documents: [
      *         {
@@ -334,9 +339,10 @@ public class TextAnalyticsClient {
      *         }
      *     ] (required)
      * }
+     * }</pre>
      *
      * <h2>Response Body Schema</h2>
-     *
+     * <pre>{@code
      * {
      *     documents: [{
      *         id: String,
@@ -381,6 +387,7 @@ public class TextAnalyticsClient {
      *     },
      *     modelVersion: String
      * }
+     * }</pre>
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -398,8 +405,8 @@ public class TextAnalyticsClient {
 
     /**
      * The API returns the detected language and a numeric score between 0 and 1. Scores close to 1 indicate 100%
-     * certainty that the identified language is true. See the &lt;a href="https://aka.ms/talangs"&gt;Supported
-     * languages in Text Analytics API&lt;/a&gt; for the list of enabled languages.
+     * certainty that the identified language is true. See the <a href="https://aka.ms/talangs">Supported
+     * languages in Text Analytics API</a> for the list of enabled languages.
      *
      * <h2>Optional Query Parameters</h2>
      * <table border="1">
@@ -412,7 +419,7 @@ public class TextAnalyticsClient {
      * </table>
      *
      * <h2>Request Body Schema</h2>
-     *
+     * <pre>{@code
      * {
      *     documents: [
      *         {
@@ -422,9 +429,10 @@ public class TextAnalyticsClient {
      *         }
      *     ] (required)
      * }
+     * }</pre>
      *
      * <h2>Response Body Schema</h2>
-     *
+     * <pre>{@code
      * {
      *     documents: [{
      *         id: String,
@@ -459,6 +467,7 @@ public class TextAnalyticsClient {
      *     },
      *     modelVersion: String
      * }
+     * }</pre>
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -475,8 +484,8 @@ public class TextAnalyticsClient {
     }
 
     /**
-     * The API returns a list of strings denoting the key phrases in the input text. See the &lt;a
-     * href="https://aka.ms/talangs"&gt;Supported languages in Text Analytics API&lt;/a&gt; for the list of enabled
+     * The API returns a list of strings denoting the key phrases in the input text. See the <a
+     * href="https://aka.ms/talangs">Supported languages in Text Analytics API</a> for the list of enabled
      * languages.
      *
      * <h2>Optional Query Parameters</h2>
@@ -490,7 +499,7 @@ public class TextAnalyticsClient {
      * </table>
      *
      * <h2>Request Body Schema</h2>
-     *
+     * <pre>{@code
      * {
      *     documents: [
      *         {
@@ -500,9 +509,10 @@ public class TextAnalyticsClient {
      *         }
      *     ] (required)
      * }
+     * }</pre>
      *
      * <h2>Response Body Schema</h2>
-     *
+     * <pre>{@code
      * {
      *     documents: [{
      *         id: String,
@@ -533,6 +543,7 @@ public class TextAnalyticsClient {
      *     },
      *     modelVersion: String
      * }
+     * }</pre>
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
