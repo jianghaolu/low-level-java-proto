@@ -35,6 +35,6 @@
 
   <modules>
     <module>./azure-ai-textanalytics</module>
-    <module>./azure-ai-textanalytics-models</module>
+    <module>./azure-ai-textanalytics-user-study</module>
   </modules>
 </project>
