@@ -16,7 +16,7 @@ public class DynamicResponse {
 
     /**
      * Creates an instance of the DynamicResponse.
-     * @param objectSerializer a serializer for serializing & deserializing payloads
+     * @param objectSerializer a serializer for serializing and deserializing payloads
      * @param response the underlying HTTP response
      * @param body the full HTTP response body
      */

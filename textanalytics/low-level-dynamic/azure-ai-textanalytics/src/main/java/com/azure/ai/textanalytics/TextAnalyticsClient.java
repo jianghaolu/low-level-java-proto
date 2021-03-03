@@ -47,8 +47,9 @@ public class TextAnalyticsClient {
      * languages.
      *
      * <h2>Optional Query Parameters</h2>
-     * <table>
-     *     <th><td>Name</td><td>Type</td><td>Description</td></th>
+     * <table border="1">
+     *     <caption>Optional Query Parameters</caption>
+     *     <tr><th>Name</th><th>Type</th><th>Description</th></tr>
      *     <tr><td>model-version</td><td>String</td><td>This value indicates which model will be used for scoring. If a
      *          model-version is not specified, the API should default to the latest, non-preview version.</td></tr>
      *     <tr><td>showStats</td><td>boolean</td><td>if set to true, response will contain request and document level
@@ -137,8 +138,9 @@ public class TextAnalyticsClient {
      * languages.
      *
      * <h2>Optional Query Parameters</h2>
-     * <table>
-     *     <th><td>Name</td><td>Type</td><td>Description</td></th>
+     * <table border="1">
+     *     <caption>Optional Query Parameters</caption>
+     *     <tr><th>Name</th><th>Type</th><th>Description</th></tr>
      *     <tr><td>model-version</td><td>String</td><td>This value indicates which model will be used for scoring. If a
      *          model-version is not specified, the API should default to the latest, non-preview version.</td></tr>
      *     <tr><td>showStats</td><td>boolean</td><td>if set to true, response will contain request and document level
@@ -221,8 +223,9 @@ public class TextAnalyticsClient {
      * API&lt;/a&gt; for the list of enabled languages.
      *
      * <h2>Optional Query Parameters</h2>
-     * <table>
-     *     <th><td>Name</td><td>Type</td><td>Description</td></th>
+     * <table border="1">
+     *     <caption>Optional Query Parameters</caption>
+     *     <tr><th>Name</th><th>Type</th><th>Description</th></tr>
      *     <tr><td>model-version</td><td>String</td><td>This value indicates which model will be used for scoring. If a
      *          model-version is not specified, the API should default to the latest, non-preview version.</td></tr>
      *     <tr><td>showStats</td><td>boolean</td><td>if set to true, response will contain request and document level
@@ -306,8 +309,9 @@ public class TextAnalyticsClient {
      * granularity, start from the a document level, down to sentence and key terms (aspects) and opinions.
      *
      * <h2>Optional Query Parameters</h2>
-     * <table>
-     *     <th><td>Name</td><td>Type</td><td>Description</td></th>
+     * <table border="1">
+     *     <caption>Optional Query Parameters</caption>
+     *     <tr><th>Name</th><th>Type</th><th>Description</th></tr>
      *     <tr><td>model-version</td><td>String</td><td>This value indicates which model will be used for scoring. If a
      *          model-version is not specified, the API should default to the latest, non-preview version.</td></tr>
      *     <tr><td>showStats</td><td>boolean</td><td>if set to true, response will contain request and document level
@@ -398,8 +402,9 @@ public class TextAnalyticsClient {
      * languages in Text Analytics API&lt;/a&gt; for the list of enabled languages.
      *
      * <h2>Optional Query Parameters</h2>
-     * <table>
-     *     <th><td>Name</td><td>Type</td><td>Description</td></th>
+     * <table border="1">
+     *     <caption>Optional Query Parameters</caption>
+     *     <tr><th>Name</th><th>Type</th><th>Description</th></tr>
      *     <tr><td>model-version</td><td>String</td><td>This value indicates which model will be used for scoring. If a
      *          model-version is not specified, the API should default to the latest, non-preview version.</td></tr>
      *     <tr><td>showStats</td><td>boolean</td><td>if set to true, response will contain request and document level
@@ -475,8 +480,9 @@ public class TextAnalyticsClient {
      * languages.
      *
      * <h2>Optional Query Parameters</h2>
-     * <table>
-     *     <th><td>Name</td><td>Type</td><td>Description</td></th>
+     * <table border="1">
+     *     <caption>Optional Query Parameters</caption>
+     *     <tr><th>Name</th><th>Type</th><th>Description</th></tr>
      *     <tr><td>model-version</td><td>String</td><td>This value indicates which model will be used for scoring. If a
      *          model-version is not specified, the API should default to the latest, non-preview version.</td></tr>
      *     <tr><td>showStats</td><td>boolean</td><td>if set to true, response will contain request and document level

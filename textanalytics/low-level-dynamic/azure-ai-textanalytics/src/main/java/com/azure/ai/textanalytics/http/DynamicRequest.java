@@ -38,7 +38,7 @@ public class DynamicRequest {
     /**
      * Creates an instance of the Dynamic request.
      *
-     * @param objectSerializer a serializer for serializing & deserializing payloads
+     * @param objectSerializer a serializer for serializing and deserializing payloads
      * @param httpPipeline the pipeline to send the actual HTTP request
      */
     public DynamicRequest(ObjectSerializer objectSerializer, HttpPipeline httpPipeline) {
@@ -85,7 +85,7 @@ public class DynamicRequest {
 
     /**
      * Sets the url for the HTTP request
-     * @param url the URL for the request
+     * @param httpMethod the HTTP method for the request
      * @return the modified DynamicRequest object
      */
     public DynamicRequest setHttpMethod(HttpMethod httpMethod) {

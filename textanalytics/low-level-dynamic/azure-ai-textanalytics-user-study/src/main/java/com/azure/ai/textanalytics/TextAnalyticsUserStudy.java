@@ -32,13 +32,14 @@ public class TextAnalyticsUserStudy {
     private static void task2() {
 
     }
+
     // Task 3: Take 10 reviews. Detect Person entities that may have entries in the Wikipedia and print all associated hyperlinks to the console
     private static void task3() {
 
     }
 
-    // Task 4: You are provided with a set of reviews in multiple languages. [C:\\study\\reviews_mixed.json].
-    // Use text analytics API to detect the language for each review and see if the review contains any Personal Identifiable Information. Print review numbers that contains PII.
+    // Task 4: You are provided with a set of models in the azure-ai-textanalytics-models directory.
+    // Use the models there to complete task 3.
     private static void task4() {
 
     }
