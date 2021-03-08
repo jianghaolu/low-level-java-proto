@@ -67,13 +67,6 @@ public class DynamicRequest {
     }
 
     /**
-     * @return the context object for the HTTP pipeline
-     */
-    public Context getContext() {
-        return context;
-    }
-
-    /**
      * Sets the url for the HTTP request
      * @param url the URL for the request
      * @return the modified DynamicRequest object
@@ -180,16 +173,6 @@ public class DynamicRequest {
         return this;
     }
 
-    /**
-     * Sets the context on the request
-     * @param context the Context object
-     * @return the modified DynamicRequest object
-     */
-    public DynamicRequest setContext(Context context) {
-        this.context = context;
-        return this;
-    }
-
     private HttpRequest buildRequest() {
         if (url == null) {
             throw new IllegalArgumentException("url");
@@ -220,10 +203,23 @@ public class DynamicRequest {
     }
 
     /**
+     * Sends the request through the HTTP pipeline synchronously.
+     * @param context the context to send with the request
+     * @return the dynamic response received from the API
+     */
+    public DynamicResponse send(Context context) {
+        return sendAsync(context).block();
+    }
+
+    /**
      * Sends the request through the HTTP pipeline asynchronously.
      * @return the reactor publisher for the dynamic response to subscribe to
      */
     public Mono<DynamicResponse> sendAsync() {
+        return sendAsync(Context.NONE);
+    }
+
+    private Mono<DynamicResponse> sendAsync(Context context) {
         return httpPipeline.send(buildRequest(), context)
                 .flatMap(httpResponse -> BinaryData.fromFlux(httpResponse.getBody())
                         .map(data -> new DynamicResponse(objectSerializer, httpResponse, data)));

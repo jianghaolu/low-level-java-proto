@@ -48,7 +48,6 @@ public class GetLanguagesWithJson {
 
         String responseBody = client.getlanguages() // DynamicRequest
                 .setBody(batchInput.toString()) // DynamicRequest
-                .setContext(Context.NONE) // DynamicRequest
                 .send()  // DynamicResponse
                 .getBody() // BinaryData
                 .toString(); // String

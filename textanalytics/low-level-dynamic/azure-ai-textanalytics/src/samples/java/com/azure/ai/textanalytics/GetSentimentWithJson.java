@@ -39,7 +39,6 @@ public class GetSentimentWithJson {
 
         String responseBody = client.getSentiment() // DynamicRequest
                 .setBody(batchInput.toString()) // DynamicRequest
-                .setContext(Context.NONE) // DynamicRequest
                 .send()  // DynamicResponse
                 .getBody() // BinaryData
                 .toString(); // String

@@ -1,8 +1,26 @@
 package com.azure.ai.textanalytics;
 
+import com.azure.core.credential.AzureKeyCredential;
+
+import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonObject;
+import javax.json.JsonReader;
+import java.io.StringReader;
 import java.util.Scanner;
 
 public class TextAnalyticsUserStudy {
+    private static final TextAnalyticsClient client = new TextAnalyticsClientBuilder()
+            .endpoint(System.getenv("AZURE_COGNITIVE_SERVICES_ENDPOINT"))
+            .credential(new AzureKeyCredential(System.getenv("AZURE_COGNITIVE_SERVICES_KEY")))
+            .build();
+
+    private static String readEnglishReviews() {
+        Scanner s = new Scanner(TextAnalyticsUserStudy.class.getResourceAsStream("/reviews_english.json")).useDelimiter("\\A");
+        String content = s.hasNext() ? s.next() : "";
+        return content.replaceAll("\r?\n", "").replaceAll("\t", "");
+    }
+
     public static void main(String[] args) {
         System.out.println("Task 1:");
         task1();
@@ -12,18 +30,15 @@ public class TextAnalyticsUserStudy {
         task3();
         System.out.println("Task 4:");
         task4();
-        System.out.println("Task 5:");
-        task5();
     }
 
     // Task 1: You are provided with a data set of raw movie reviews in english from IMDB in a JSON format
-    // in the file named [C:\\study\\reviews_english.json].
+    // in the file named [resources\\reviews_english.json].
     // Please use text analytics API to perform analysis on the first 10 reviews.
     // You have a helper method available that reads the data from the input JSON for you.
     // Use text analytics services and detect whether a review is positive or not positive and print out the result to the console
     // “review 2 is [positive/not positive]”.
     private static void task1() {
-
     }
 
     // Task 2: Take the first 10 reviews. For words or phrases in those reviews that can be categorized as a Person, Location, or Organization,
@@ -62,10 +77,5 @@ public class TextAnalyticsUserStudy {
         System.out.println("");
         System.out.println("8) What do you think about IntelliSense documentation:");
         System.out.println("");
-    }
-
-    private static String readEnglishReviews() {
-        Scanner s = new Scanner(TextAnalyticsUserStudy.class.getResourceAsStream("/reviews_english.json")).useDelimiter("\\A");
-        return s.hasNext() ? s.next() : "";
     }
 }
