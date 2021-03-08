@@ -12,7 +12,13 @@ import com.azure.core.http.HttpMethod;
 import com.azure.core.http.HttpPipeline;
 import com.azure.core.util.serializer.ObjectSerializer;
 
-/** Initializes a new instance of the asynchronous TextAnalyticsClient type. */
+/**
+ * This class provides a client that contains all the operations that apply to Azure Text Analytics.
+ * Operations allowed by the client are language detection, entities recognition, linked entities recognition,
+ * key phrases extraction, and sentiment analysis of a document or a list of documents.
+ *
+ * @see TextAnalyticsClientBuilder
+ */
 @ServiceClient(builder = TextAnalyticsClientBuilder.class, isAsync = true)
 public class TextAnalyticsClient {
     private final ObjectSerializer objectSerializer;
