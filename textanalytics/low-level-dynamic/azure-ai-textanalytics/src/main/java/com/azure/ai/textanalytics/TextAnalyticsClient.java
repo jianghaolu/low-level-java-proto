@@ -19,18 +19,6 @@ public class TextAnalyticsClient {
     private final HttpPipeline httpPipeline;
     private final String endpoint;
 
-    protected ObjectSerializer getObjectSerializer() {
-        return objectSerializer;
-    }
-
-    protected HttpPipeline getHttpPipeline() {
-        return httpPipeline;
-    }
-
-    protected String getEndpoint() {
-        return endpoint;
-    }
-
     /**
      * Initializes an instance of TextAnalyticsClient client.
      *
@@ -128,8 +116,7 @@ public class TextAnalyticsClient {
                 .setUrl("{Endpoint}/text/analytics/v3.1-preview.3/entities/linking")
                 .setPathParam("Endpoint", endpoint)
                 .setHttpMethod(HttpMethod.POST)
-                .addHeader("Accept", "application/json, text/json")
-                .setOptionalQueryParameters("model-version", "showStats", "stringIndexType");
+                .addHeader("Accept", "application/json, text/json");
     }
 
     /**
@@ -215,8 +202,7 @@ public class TextAnalyticsClient {
                 .setUrl("{Endpoint}/text/analytics/v3.1-preview.3/entities/recognition/general")
                 .setPathParam("Endpoint", endpoint)
                 .setHttpMethod(HttpMethod.POST)
-                .addHeader("Accept", "application/json, text/json")
-                .setOptionalQueryParameters("model-version", "showStats", "stringIndexType");
+                .addHeader("Accept", "application/json, text/json");
     }
 
     /**
@@ -305,8 +291,7 @@ public class TextAnalyticsClient {
                 .setUrl("{Endpoint}/text/analytics/v3.1-preview.3/entities/recognition/pii")
                 .setPathParam("Endpoint", endpoint)
                 .setHttpMethod(HttpMethod.POST)
-                .addHeader("Accept", "application/json, text/json")
-                .setOptionalQueryParameters("model-version", "showStats", "domain", "stringIndexType");
+                .addHeader("Accept", "application/json, text/json");
     }
 
     /**
@@ -399,8 +384,7 @@ public class TextAnalyticsClient {
                 .setUrl("{Endpoint}/text/analytics/v3.1-preview.3/sentiment")
                 .setPathParam("Endpoint", endpoint)
                 .setHttpMethod(HttpMethod.POST)
-                .addHeader("Accept", "application/json, text/json")
-                .setOptionalQueryParameters("model-version", "showStats", "opinionMining", "stringIndexType");
+                .addHeader("Accept", "application/json, text/json");
     }
 
     /**
@@ -479,8 +463,7 @@ public class TextAnalyticsClient {
                 .setUrl("{Endpoint}/text/analytics/v3.1-preview.3/languages")
                 .setPathParam("Endpoint", endpoint)
                 .setHttpMethod(HttpMethod.POST)
-                .addHeader("Accept", "application/json, text/json")
-                .setOptionalQueryParameters("model-version", "showStats");
+                .addHeader("Accept", "application/json, text/json");
     }
 
     /**
@@ -555,7 +538,6 @@ public class TextAnalyticsClient {
                 .setUrl("{Endpoint}/text/analytics/v3.1-preview.3/keyPhrases")
                 .setPathParam("Endpoint", endpoint)
                 .setHttpMethod(HttpMethod.POST)
-                .addHeader("Accept", "application/json, text/json")
-                .setOptionalQueryParameters("model-version", "showStats");
+                .addHeader("Accept", "application/json, text/json");
     }
 }

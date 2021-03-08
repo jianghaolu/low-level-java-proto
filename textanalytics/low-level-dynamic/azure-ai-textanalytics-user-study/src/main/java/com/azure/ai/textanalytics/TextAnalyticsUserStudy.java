@@ -2,11 +2,6 @@ package com.azure.ai.textanalytics;
 
 import com.azure.core.credential.AzureKeyCredential;
 
-import javax.json.Json;
-import javax.json.JsonArray;
-import javax.json.JsonObject;
-import javax.json.JsonReader;
-import java.io.StringReader;
 import java.util.Scanner;
 
 public class TextAnalyticsUserStudy {
@@ -45,7 +40,6 @@ public class TextAnalyticsUserStudy {
     // identify whether they are a person, location, or organization.
     // Print the phrase found in text and its category, e.g.Kurt Russell is a Person.
     private static void task2() {
-
     }
 
     // Task 3: Take 10 reviews. Detect Person entities that may have entries in the Wikipedia and print all associated hyperlinks to the console
@@ -69,13 +63,17 @@ public class TextAnalyticsUserStudy {
         System.out.println("");
         System.out.println("4) Suggest 1 thing to improve, that would have the most impact on your experience");
         System.out.println("");
-        System.out.println("5) How this API feels compared to Rest API's you've used in the past:");
+        System.out.println("5) How is this API compared to Rest API's you've used in the past:");
         System.out.println("");
-        System.out.println("6) How this API feels compared to other Azure SDK API's you've used in the past:");
+        System.out.println("6) How is this API compared to other Azure SDK API's you've used in the past:");
         System.out.println("");
-        System.out.println("7) What do you think about provided documentation:");
+        System.out.println("7) What do you think about the provided documentation:");
         System.out.println("");
         System.out.println("8) What do you think about IntelliSense documentation:");
+        System.out.println("");
+        System.out.println("9) When would you choose to use this LLC client vs the regular SDK:");
+        System.out.println("");
+        System.out.println("8) Would you use this client in production:");
         System.out.println("");
     }
 }

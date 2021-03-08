@@ -4,24 +4,20 @@ import com.azure.core.http.HttpHeaders;
 import com.azure.core.http.HttpRequest;
 import com.azure.core.http.HttpResponse;
 import com.azure.core.util.BinaryData;
-import com.azure.core.util.serializer.ObjectSerializer;
 
 /**
  * A response received from sending a DynamicRequest.
  */
 public class DynamicResponse {
-    final ObjectSerializer objectSerializer;
-    final HttpResponse response;
-    final BinaryData body;
+    private final HttpResponse response;
+    private final BinaryData body;
 
     /**
      * Creates an instance of the DynamicResponse.
-     * @param objectSerializer a serializer for serializing and deserializing payloads
      * @param response the underlying HTTP response
      * @param body the full HTTP response body
      */
-    public DynamicResponse(ObjectSerializer objectSerializer, HttpResponse response, BinaryData body) {
-        this.objectSerializer = objectSerializer;
+    public DynamicResponse(HttpResponse response, BinaryData body) {
         this.response = response;
         this.body = body;
     }
