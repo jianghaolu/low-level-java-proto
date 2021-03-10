@@ -92,47 +92,47 @@ InputStream bodyInputStream = body.toStream();
 
 ## Examples
 
-### Detect Language
+### Get Entities
 
-```Java Snippet:DetectLanguagesSample
+```Java Snippet:GetLinkedEntitiesWithJson
 TextAnalyticsClient client = new TextAnalyticsClientBuilder()
     .credential(new AzureKeyCredential("<api-key>"))
     .endpoint("<endpoint>")
     .build();
 
-JsonObject doc1 = Json.createObjectBuilder()
-    .add("id", "1")
-    .add("text", "Hello world")
-    .add("countryHint", "US")
-    .build();
-
-JsonObject doc2 = Json.createObjectBuilder()
-    .add("id", "2")
-    .add("text", "Bonjour tout le monde")
-    .build();
-
-JsonObject doc3 = Json.createObjectBuilder()
-    .add("id", "3")
-    .add("text", "La carretera estaba atascada. Había mucho tráfico el día de ayer.")
-    .build();
+JsonObject document = Json.createObjectBuilder()
+        .add("id", "0")
+        .add("text", "Old Faithful is a geyser at Yellowstone Park.")
+        .build();
 
 JsonObject batchInput = Json.createObjectBuilder()
-    .add("documents", Json.createArrayBuilder().add(doc1).add(doc2).add(doc3).build())
-    .build();
+        .add("documents", Json.createArrayBuilder().add(document).build())
+        .build();
 
-String responseBody = client.getlanguages() // DynamicRequest
-    .setBody(batchInput.toString()) // DynamicRequest
-    .send()  // DynamicResponse
-    .getBody() // BinaryData
-    .toString(); // String
+String responseBody = client.getLinkedEntities() // DynamicRequest
+        .setBody(batchInput.toString()) // DynamicRequest
+        .send()  // DynamicResponse
+        .getBody() // BinaryData
+        .toString(); // String
 
 JsonObject deserialized = Json.createReader(new StringReader(responseBody)).readObject();
 
 if (deserialized != null && deserialized.containsKey("documents")) {
-    deserialized.getJsonArray("documents").forEach(value -> {
-        System.out.println(String.format("Detected language is %s with confidence score %f",
-                value.asJsonObject().getJsonObject("detectedLanguage").getString("name"),
-                value.asJsonObject().getJsonObject("detectedLanguage").getJsonNumber("confidenceScore").doubleValue()));
+    JsonArray entities = deserialized.getJsonArray("documents").get(0).asJsonObject().getJsonArray("entities");
+
+    entities.forEach(linkedEntity -> {
+        JsonObject entity = linkedEntity.asJsonObject();
+        System.out.println("Linked Entities:");
+        System.out.printf("Name: %s, entity ID in data source: %s, URL: %s, data source: %s,"
+                        + " Bing Entity Search API ID: %s.%n",
+                entity.getString("name"), entity.getString("dataSource"), entity.getString("url"),
+                entity.getString("dataSource"), entity.getString("bingId"));
+        entity.getJsonArray("matches").forEach(entityMatch -> {
+            JsonObject match = entityMatch.asJsonObject();
+            System.out.printf(
+                    "Matched entity: %s, confidence score: %f.%n",
+                    match.getString("text"), match.getJsonNumber("confidenceScore").doubleValue());
+        });
     });
 }
 ```
