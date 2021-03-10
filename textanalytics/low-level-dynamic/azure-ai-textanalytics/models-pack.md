@@ -24,7 +24,6 @@ MultiLanguageBatchInput batchInput = new MultiLanguageBatchInput().setDocuments(
 
 EntityLinkingResult result = client.getLinkedEntities() // DynamicRequest
     .setBody(batchInput) // DynamicRequest
-    .setContext(Context.NONE) // DynamicRequest
     .send()  // DynamicResponse
     .getBody() // BinaryData
     .toObject(TypeReference.createInstance(EntityLinkingResult.class));
