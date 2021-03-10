@@ -26,5 +26,5 @@ EntityLinkingResult result = client.getLinkedEntities() // DynamicRequest
     .setBody(batchInput) // DynamicRequest
     .send()  // DynamicResponse
     .getBody() // BinaryData
-    .toObject(TypeReference.createInstance(EntityLinkingResult.class));
+    .toObject(EntityLinkingResult.class);
 ```
