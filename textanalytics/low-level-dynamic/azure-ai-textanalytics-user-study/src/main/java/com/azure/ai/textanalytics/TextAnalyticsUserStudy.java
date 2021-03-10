@@ -10,15 +10,9 @@ public class TextAnalyticsUserStudy {
             .credential(new AzureKeyCredential(System.getenv("AZURE_COGNITIVE_SERVICES_KEY")))
             .build();
 
-    private static String readEnglishReviews() {
-        Scanner s = new Scanner(TextAnalyticsUserStudy.class.getResourceAsStream("/reviews_english.json")).useDelimiter("\\A");
-        String content = s.hasNext() ? s.next() : "";
-        return content.replaceAll("\r?\n", "").replaceAll("\t", "");
-    }
-
     public static void main(String[] args) {
         System.out.println("Task 1:");
-        task1();
+        task1("The Backyardigans is probably the most annoying show I ever watched, especially I hate the music");
         System.out.println("Task 2:");
         task2();
         System.out.println("Task 3:");
@@ -27,28 +21,31 @@ public class TextAnalyticsUserStudy {
         task4();
     }
 
-    // Task 1: You are provided with a data set of raw movie reviews in english from IMDB in a JSON format
-    // in the file named [resources\\reviews_english.json].
-    // Please use text analytics API to perform analysis on the first 10 reviews.
-    // You have a helper method available that reads the data from the input JSON for you.
-    // Use text analytics services and detect whether a review is positive or not positive and print out the result to the console
-    // “review 2 is [positive/not positive]”.
-    private static void task1() {
+    // Task 1: You are provided with a movie review from IMDB. Please use text analytics service and detect the
+    // sentiment of the review and print out the result to the console "The review is [positive/mixed/negative]".
+    private static void task1(String reviewText) {
+
     }
 
-    // Task 2: Take the first 10 reviews. For words or phrases in those reviews that can be categorized as a Person, Location, or Organization,
-    // identify whether they are a person, location, or organization.
-    // Print the phrase found in text and its category, e.g.Kurt Russell is a Person.
+    // Task 2: You are provided with a data set of movie reviews in english from IMDB in a JSON format
+    // in the file named [resources\\reviews_english.json].
+    // You have a helper method readEnglishReviews() that reads the data from the input JSON for you.
+    // Use text analytics services and detect the sentiment of each review and print out the result to the console
+    // “review 2 is [positive/mixed/negative]”.
     private static void task2() {
     }
 
-    // Task 3: Take 10 reviews. Detect Person entities that may have entries in the Wikipedia and print all associated hyperlinks to the console
+    // Task 3: You are provided with a set of models in the azure-ai-textanalytics-models/src/main/java directory.
+    // Use the models there to complete the previous task.
     private static void task3() {
 
     }
 
-    // Task 4: You are provided with a set of models in the azure-ai-textanalytics-models directory.
-    // Use the models there to complete task 3.
+    // Task 4: You are provided with a data set of movie reviews in mixed languages from IMDB in a JSON format
+    // in the file named [resources\\reviews_mixed.json].
+    // You have a helper method readMixedLanguageReviews() that reads the data from the input JSON for you.
+    // Use text analytics services and get the language of each review and print out the result to the console
+    // “review 2 is in [English/Spanish/French]”.
     private static void task4() {
 
     }
@@ -65,15 +62,25 @@ public class TextAnalyticsUserStudy {
         System.out.println("");
         System.out.println("5) How is this API compared to Rest API's you've used in the past:");
         System.out.println("");
-        System.out.println("6) How is this API compared to other Azure SDK API's you've used in the past:");
+        System.out.println("6) What do you think about the provided documentation:");
         System.out.println("");
-        System.out.println("7) What do you think about the provided documentation:");
+        System.out.println("7) What do you think about IntelliSense documentation:");
         System.out.println("");
-        System.out.println("8) What do you think about IntelliSense documentation:");
+        System.out.println("8) When would you choose to use the JSON based client vs model based client:");
         System.out.println("");
-        System.out.println("9) When would you choose to use this LLC client vs the regular SDK:");
+        System.out.println("9) Would you use this client in production:");
         System.out.println("");
-        System.out.println("8) Would you use this client in production:");
-        System.out.println("");
+    }
+
+    private static String readEnglishReviews() {
+        Scanner s = new Scanner(TextAnalyticsUserStudy.class.getResourceAsStream("/reviews_english.json")).useDelimiter("\\A");
+        String content = s.hasNext() ? s.next() : "";
+        return content.replaceAll("\r?\n", "").replaceAll("\t", "");
+    }
+
+    private static String readMixedLanguageReviews() {
+        Scanner s = new Scanner(TextAnalyticsUserStudy.class.getResourceAsStream("/reviews_mixed.json")).useDelimiter("\\A");
+        String content = s.hasNext() ? s.next() : "";
+        return content.replaceAll("\r?\n", "").replaceAll("\t", "");
     }
 }
