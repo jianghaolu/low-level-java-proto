@@ -2,11 +2,6 @@ package com.azure.ai.textanalytics;
 
 import com.azure.core.credential.AzureKeyCredential;
 
-import javax.json.Json;
-import javax.json.JsonArray;
-import javax.json.JsonObject;
-import javax.json.JsonReader;
-import java.io.StringReader;
 import java.util.Scanner;
 
 public class TextAnalyticsUserStudy {
@@ -45,26 +40,6 @@ public class TextAnalyticsUserStudy {
     // identify whether they are a person, location, or organization.
     // Print the phrase found in text and its category, e.g.Kurt Russell is a Person.
     private static void task2() {
-        JsonReader jsonReader = Json.createReader(new StringReader(readEnglishReviews()));
-        JsonArray reviews = jsonReader.readArray();
-        for (int i = 0; i < 10; i++) {
-            JsonObject review = reviews.get(i).asJsonObject();
-            String text = review.getString("text");
-            JsonObject request = Json.createObjectBuilder().add("documents", Json.createArrayBuilder()
-                    .add(Json.createObjectBuilder().add("id", "0").add("text", text).add("language", "en").build())
-                    .build()).build();
-            String response = client.getEntities()
-                    .setBody(request.toString())
-                    .send()
-                    .getBody()
-                    .toString();
-
-            JsonArray entities = Json.createReader(new StringReader(response)).readObject().getJsonArray("documents").get(0).asJsonObject().getJsonArray("entities");
-            System.out.println("Review " + (i+1) + ":");
-            entities.forEach(entity -> {
-                System.out.println("\t" + entity.asJsonObject().getString("text") + " is a " + entity.asJsonObject().getString("category"));
-            });
-        }
     }
 
     // Task 3: Take 10 reviews. Detect Person entities that may have entries in the Wikipedia and print all associated hyperlinks to the console
@@ -95,6 +70,10 @@ public class TextAnalyticsUserStudy {
         System.out.println("7) What do you think about the provided documentation:");
         System.out.println("");
         System.out.println("8) What do you think about IntelliSense documentation:");
+        System.out.println("");
+        System.out.println("9) When would you choose to use this LLC client vs the regular SDK:");
+        System.out.println("");
+        System.out.println("8) Would you use this client in production:");
         System.out.println("");
     }
 }
