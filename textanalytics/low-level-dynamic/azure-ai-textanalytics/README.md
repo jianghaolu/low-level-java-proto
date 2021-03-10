@@ -36,7 +36,7 @@ Operations on the Text Analytics client consume and produce JSON data. Instead o
 
 `DynamicRequest` and `DynamicResponse` are designed for interacting with the REST APIs. All the APIs in `TextAnalyticClient` return a `DynamicRequest` where you can call `send()` or `sendAsync()` to get a `DynamicResponse`.
 
-You can set path parameters, query parameters, headers, and the request body on a `DynamicRequest` object. You can serialize the request body into a String with your preferred serializer and call `.setBody(String)` or use a JSON serializer by calling `.setBody(Object)`. You can also get the current state of a `DynamicRequest` by calling `printHelp()` on it.
+You can set path parameters, query parameters, headers, and the request body on a `DynamicRequest` object. You can serialize the request body into a String with your preferred serializer and call `.setBody(String)` or use a JSON serializer by calling `.setBody(Object)`.
 
 Once you have a `DynamicResponse` you can get the response status code, headers, and the response body. The response body is returned as a `BinaryData` where you can get the String value and deserialize with your preferred serializer.
  
@@ -88,38 +88,6 @@ BinaryData body = res.getBody();
 String bodyString = body.toString();
 byte[] bodyByteArray = body.toBytes();
 InputStream bodyInputStream = body.toStream();
-```
-
-### Models pack
-
-A models-pack contains all the models you may use to conveniently serialize and deserialize JSON objects required for the APIs. To serialize and deserialize JSON objects, you will need to add a dependency to your classpath:
-
-```xml
-<dependency>
-  <groupId>com.azure</groupId>
-  <artifactId>azure-core-serializer-json-jackson</artifactId>
-  <version>1.0.2</version>
-</dependency>
-```
-
-You will then be able to pass the request model directly to the `setBody(Object)` method on `DynamicRequest`, and deserialize a `BinaryData` directly to the response model:
-
-```java
-TextAnalyticsClient client = new TextAnalyticsClientBuilder()
-    .credential(new AzureKeyCredential("{ApiKey}"))
-    .endpoint("{Endpoint}")
-    .build();
-
-MultiLanguageInput input = new MultiLanguageInput()
-    .setId("0").setText("Old Faithful is a geyser at Yellowstone Park.");
-MultiLanguageBatchInput batchInput = new MultiLanguageBatchInput().setDocuments(Collections.singletonList(input));
-
-EntityLinkingResult result = client.getLinkedEntities() // DynamicRequest
-    .setBody(batchInput) // DynamicRequest
-    .setContext(Context.NONE) // DynamicRequest
-    .send()  // DynamicResponse
-    .getBody() // BinaryData
-    .toObject(TypeReference.createInstance(EntityLinkingResult.class));
 ```
 
 ## Examples
