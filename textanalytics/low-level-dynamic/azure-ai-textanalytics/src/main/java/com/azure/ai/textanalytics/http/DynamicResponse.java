@@ -45,9 +45,10 @@ import com.azure.core.util.BinaryData;
  *
  * This sample shows how to read the JSON response from the service and inspecting specific properties of the response.
  * <pre>{@code
- * dynamicRequest.setUrl("https://petstore.example.com/pet/{petId}"); // may already be set if request is created from a client
- * dynamicRequest.setPathParam("petId", 2343245);
- * DynamicResponse response = dynamicRequest.send(); // makes the service call
+ * DynamicResponse response = dynamicRequest
+ *          .setUrl("https://petstore.example.com/pet/{petId}"); // may already be set if request is created from a client
+ *          .setPathParam("petId", 2343245);
+ *          .send(); // makes the service call
  *
  * // Check the HTTP status
  * int statusCode = response.getStatusCode();

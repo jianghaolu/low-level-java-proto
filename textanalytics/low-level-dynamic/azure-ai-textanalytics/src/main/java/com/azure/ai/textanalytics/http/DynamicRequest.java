@@ -56,9 +56,10 @@ import java.util.stream.Collectors;
  * <a href="https://petstore.swagger.io/#/pet/getPetById">HTTP GET call
  * to the pet service</a> and setting the pet id in path param as shown in the sample below.
  * <pre>{@code
- * dynamicRequest.setUrl("https://petstore.example.com/pet/{petId}"); // may already be set if request is created from a client
- * dynamicRequest.setPathParam("petId", 2343245);
- * DynamicResponse response = dynamicRequest.send(); // makes the service call
+ * DynamicResponse response = dynamicRequest
+ *      .setUrl("https://petstore.example.com/pet/{petId}"); // may already be set if request is created from a client
+ *      .setPathParam("petId", 2343245)
+ *      .send(); // makes the service call
  * }</pre>
  *
  * <p><strong>Configuring the request with JSON body and making a HTTP POST request</strong></p>
@@ -122,10 +123,11 @@ import java.util.stream.Collectors;
  *
  * Now, this string representation of the JSON request can be set as body of DynamicRequest
  * <pre>{@code
- * dynamicRequest.setUrl("https://petstore.example.com/pet"); // may already be set if request is created from a client
- * dynamicRequest.addHeader("Content-Type", "application/json");
- * dynamicRequest.setBody(requestBodyStr);
- * DynamicResponse response = dynamicRequest.send(); // makes the service call
+ * DynamicResponse response = dynamicRequest
+ *         .setUrl("https://petstore.example.com/pet"); // may already be set if request is created from a client
+ *         .addHeader("Content-Type", "application/json");
+ *         .setBody(requestBodyStr)
+ *         .send(); // makes the service call
  * }</pre>
  */
 public class DynamicRequest {
