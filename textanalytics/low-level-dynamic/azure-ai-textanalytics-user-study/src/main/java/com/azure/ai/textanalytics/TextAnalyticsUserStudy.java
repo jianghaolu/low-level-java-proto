@@ -18,6 +18,9 @@ public class TextAnalyticsUserStudy {
             .credential(new AzureKeyCredential(System.getenv("AZURE_COGNITIVE_SERVICES_KEY")))
             .buildClient();
 
+    // Getting Started:
+    // https://github.com/jianghaolu/low-level-java-proto/blob/requesthelp/textanalytics/low-level-dynamic/azure-ai-textanalytics/README.md
+
     public static void main(String[] args) {
         System.out.println("Task 1:");
         task1("The Backyardigans is probably the most annoying show I ever watched, especially I hate the music");
@@ -79,29 +82,25 @@ public class TextAnalyticsUserStudy {
 
     }
 
-    /**
-     *  Task 6: Feedback
-     */
-    private static void task6() {
-        System.out.println("1) How did you like this API on scale 1-5, where 1 is liked the least and 5 = liked the most");
-        System.out.println("");
-        System.out.println("2) What do you find frustrating or unappealing about this API");
-        System.out.println("");
-        System.out.println("3) What did you like about this API:");
-        System.out.println("");
-        System.out.println("4) Suggest 1 thing to improve, that would have the most impact on your experience");
-        System.out.println("");
-        System.out.println("5) How is this API compared to Rest API's you've used in the past:");
-        System.out.println("");
-        System.out.println("6) What do you think about the provided documentation:");
-        System.out.println("");
-        System.out.println("7) What do you think about IntelliSense documentation:");
-        System.out.println("");
-        System.out.println("8) When would you choose to use the JSON based client vs model based client:");
-        System.out.println("");
-        System.out.println("9) Would you use this client in production:");
-        System.out.println("");
-    }
+    // Task 6: Feedback - brirfly record your answer to each question below
+    // 1) How did you like this API on scale 1-5, where 1 is liked the least and 5 = liked the most")
+    // Answer
+    // 2) What do you find frustrating or unappealing about this API");
+    // Answer
+    // 3) What did you like about this API:");
+    // Answer
+    // 4) Suggest 1 thing to improve, that would have the most impact on your experience");
+    // Answer
+    // 5) How is this API compared to Rest API's you've used in the past:");
+    // Answer
+    // 6) What do you think about the provided documentation:");
+    // Answer
+    // 7) What do you think about IntelliSense documentation:");
+    // Answer
+    // 8) When would you choose to use the JSON based client vs model based client:");
+    // Answer
+    // 9) Would you use this client in production:");
+    // Answer
 
     private static List<String> readEnglishReviews() {
         return Arrays.asList(
