@@ -2,16 +2,21 @@ package com.azure.ai.textanalytics;
 
 import com.azure.core.credential.AzureKeyCredential;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Scanner;
 
 public class TextAnalyticsUserStudy {
-    private static final TextAnalyticsClient client = new TextAnalyticsClientBuilder()
+    // Low-level client
+    private static final TextAnalyticsClient llcClient = new TextAnalyticsClientBuilder()
             .endpoint(System.getenv("AZURE_COGNITIVE_SERVICES_ENDPOINT"))
             .credential(new AzureKeyCredential(System.getenv("AZURE_COGNITIVE_SERVICES_KEY")))
             .build();
+
+    // High-level client
+    private static final com.azure.ai.textanalytics.hlc.TextAnalyticsClient hlcClient = new com.azure.ai.textanalytics.hlc.TextAnalyticsClientBuilder()
+            .endpoint(System.getenv("AZURE_COGNITIVE_SERVICES_ENDPOINT"))
+            .credential(new AzureKeyCredential(System.getenv("AZURE_COGNITIVE_SERVICES_KEY")))
+            .buildClient();
 
     public static void main(String[] args) {
         System.out.println("Task 1:");
@@ -22,36 +27,62 @@ public class TextAnalyticsUserStudy {
         task3();
         System.out.println("Task 4:");
         task4();
+        System.out.println("Task 5:");
+        task5();
     }
 
-    // Task 1: You are provided with a movie review from IMDB. Please use text analytics service and detect the
-    // sentiment of the review and print out the result to the console "The review is [positive/mixed/negative]".
+    /**
+     * Task 1: You are provided with a movie review from IMDB. Please use text analytics service and detect the
+     * sentiment of the review and print out the result to the console "The review is [positive/mixed/negative]".
+     * Please use llcClient for this task
+     * @param reviewText The review text
+     */
     private static void task1(String reviewText) {
+
     }
 
-    // Task 2: You are provided with a data set of movie reviews in english from IMDB.
-    // You have a helper method readEnglishReviews() that reads the data for you.
-    // Use text analytics services and detect the sentiment of each review and print out the result to the console
-    // “review 2 is [positive/mixed/negative]”.
+    /**
+     * Task 2: You are provided with a data set of movie reviews in english from IMDB.
+     * You have a helper method readEnglishReviews() that reads the data for you.
+     * Use text analytics services and detect the sentiment of each review and print out the result to the console
+     * “review 2 is [positive/mixed/negative]”.
+     * Please use llcClient for this task
+     */
     private static void task2() {
+
     }
 
-    // Task 3: You are provided with a set of models in the azure-ai-textanalytics-models/src/main/java directory.
-    // Use the models there to complete the previous task.
+    /**
+     * Task 3: You are provided with a set of models in the azure-ai-textanalytics-models/src/main/java directory.
+     * Use the models there to complete the previous task.
+     * Please use llcClient for this task
+     */
     private static void task3() {
 
     }
 
-    // Task 4: You are provided with a data set of movie reviews in mixed languages from IMDB.
-    // You have a helper method readMixedLanguageReviews() that reads the data for you.
-    // Use text analytics services and get the language of each review and print out the result to the console
-    // “review 2 is in [English/Spanish/French]”.
+    /**
+     * Task 4: You are provided with a data set of movie reviews in mixed languages from IMDB.
+     * You have a helper method readMixedLanguageReviews() that reads the data for you.
+     * Use text analytics services and get the language of each review and print out the result to the console
+     * “review 2 is in [English/Spanish/French]”.
+     * Please use llcClient for this task
+     */
     private static void task4() {
 
     }
 
-    // Task 5: Feedback
+    /**
+     * Task 5: Repeat task2 using the high-level client (hlcClient).
+     */
     private static void task5() {
+
+    }
+
+    /**
+     *  Task 6: Feedback
+     */
+    private static void task6() {
         System.out.println("1) How did you like this API on scale 1-5, where 1 is liked the least and 5 = liked the most");
         System.out.println("");
         System.out.println("2) What do you find frustrating or unappealing about this API");
