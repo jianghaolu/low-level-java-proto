@@ -8,6 +8,7 @@ import com.azure.core.http.HttpHeaders;
 import com.azure.core.http.HttpMethod;
 import com.azure.core.http.HttpPipeline;
 import com.azure.core.http.HttpRequest;
+import com.azure.core.http.policy.HttpPipelinePolicy;
 import com.azure.core.util.BinaryData;
 import com.azure.core.util.Context;
 import com.azure.core.util.FluxUtil;
@@ -22,7 +23,110 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * A customizable HTTP request instantiated from a low level client.
+ * This class facilitates constructing and sending a HTTP request. {@link DynamicRequest} can be
+ * used to configure the endpoint to which the request is sent, the request headers, path params, query params
+ * and the request body.
+ *
+ * <p>
+ * An instance of {@link DynamicRequest} can be created by either directly calling the constructor with an
+ * {@link ObjectSerializer} and {@link HttpPipeline} or obtained from a service client that preconfigures known
+ * components of the request like URL, path params etc.
+ * </p>
+ *
+ * <p>
+ * To demonstrate how this class can be used to construct a request, let's use a Pet Store service as an example. The
+ * list of APIs available on this service are <a href="https://petstore.swagger.io/#/pet">documented in the swagger definition.</a>
+ * </p>
+ *
+ * <p><strong>Creating an instance of DynamicRequest using the constructor</strong></p>
+ *
+ * <pre>{@code
+ * ObjectSerializer serializer = new JacksonJsonSerializerBuilder().build();
+ * HttpPipeline pipeline = new HttpPipelineBuilder().build()
+ * DynamicRequest request = new DynamicRequest(serializer, createHttpPipeline());
+ * }</pre>
+ *
+ * <p><strong>Creating an instance of DynamicRequest using a client</strong></p>
+ * <pre>{@code
+ * DynamicRequest request = petServiceClient.getPet(); // preconfigures some components of request like URL
+ * }</pre>
+ *
+ * <p><strong>Configuring the request with a path param and making a HTTP GET request</strong></p>
+ * Continuing with the pet store example, getting information about a pet requires making a
+ * <a href="https://petstore.swagger.io/#/pet/getPetById">HTTP GET call
+ * to the pet service</a> and setting the pet id in path param as shown in the sample below.
+ * <pre>{@code
+ * dynamicRequest.setUrl("https://petstore.example.com/pet/{petId}"); // may already be set if request is created from a client
+ * dynamicRequest.setPathParam("petId", 2343245);
+ * DynamicResponse response = dynamicRequest.send(); // makes the service call
+ * }</pre>
+ *
+ * <p><strong>Configuring the request with JSON body and making a HTTP POST request</strong></p>
+ * To <a href="https://petstore.swagger.io/#/pet/addPet">add a new pet to the pet store</a>, a HTTP POST call should
+ * be made to the service with the details of the pet that is to be added. The details of the pet are included as the
+ * request body in JSON format.
+ *
+ * The JSON structure for the request is defined as follows:
+ * <pre>{@code
+ * {
+ *   "id": 0,
+ *   "category": {
+ *     "id": 0,
+ *     "name": "string"
+ *   },
+ *   "name": "doggie",
+ *   "photoUrls": [
+ *     "string"
+ *   ],
+ *   "tags": [
+ *     {
+ *       "id": 0,
+ *       "name": "string"
+ *     }
+ *   ],
+ *   "status": "available"
+ * }
+ * }</pre>
+ *
+ * To create a concrete request, Json builder provided in javax package is used here for demonstration. However, any
+ * other Json building library can be used to achieve similar results.
+ *
+ * <pre>{@code
+ * JsonArray photoUrls = Json.createArrayBuilder()
+ *         .add("https://imgur.com/pet1")
+ *         .add("https://imgur.com/pet2")
+ *         .build();
+ *
+ * JsonArray tags = Json.createArrayBuilder()
+ *         .add(Json.createObjectBuilder()
+ *                 .add("id", 0)
+ *                 .add("name", "Labrador")
+ *                 .build())
+ *         .add(Json.createObjectBuilder()
+ *                 .add("id", 1)
+ *                 .add("name", "2021")
+ *                 .build())
+ *         .build();
+ *
+ * JsonObject requestBody = Json.createObjectBuilder()
+ *         .add("id", 0)
+ *         .add("name", "foo")
+ *         .add("status", "available")
+ *         .add("category", Json.createObjectBuilder().add("id", 0).add("name", "dog"))
+ *         .add("photoUrls", photoUrls)
+ *         .add("tags", tags)
+ *         .build();
+ *
+ * String requestBodyStr = requestBody.toString();
+ * }</pre>
+ *
+ * Now, this string representation of the JSON request can be set as body of DynamicRequest
+ * <pre>{@code
+ * dynamicRequest.setUrl("https://petstore.example.com/pet"); // may already be set if request is created from a client
+ * dynamicRequest.addHeader("Content-Type", "application/json");
+ * dynamicRequest.setBody(requestBodyStr);
+ * DynamicResponse response = dynamicRequest.send(); // makes the service call
+ * }</pre>
  */
 public class DynamicRequest {
     private final ObjectSerializer objectSerializer;
@@ -40,7 +144,9 @@ public class DynamicRequest {
     private String responseBodyType;
 
     /**
-     * Creates an instance of the Dynamic request.
+     * Creates an instance of the Dynamic request. The {@code objectSerializer} provided to this constructor will be
+     * used to serialize the request and the {@code httpPipeline} configured with a series of
+     * {@link HttpPipelinePolicy Http pipeline policies} will be applied before sending the request.
      *
      * @param objectSerializer a serializer for serializing and deserializing payloads
      * @param httpPipeline the pipeline to send the actual HTTP request
@@ -57,6 +163,8 @@ public class DynamicRequest {
     }
 
     /**
+     * Returns the {@link ObjectSerializer} used for serializing this request.
+     *
      * @return the underlying serializer used by this DynamicRequest
      */
     public ObjectSerializer getObjectSerializer() {
@@ -64,6 +172,8 @@ public class DynamicRequest {
     }
 
     /**
+     * Returns the {@link HttpPipeline} used for sending this request.
+     *
      * @return the pipeline to sending HTTP requests used by this DynamicRequest
      */
     public HttpPipeline getHttpPipeline() {
@@ -71,7 +181,8 @@ public class DynamicRequest {
     }
 
     /**
-     * Sets the url for the HTTP request
+     * Sets the URL for the HTTP request.
+     *
      * @param url the URL for the request
      * @return the modified DynamicRequest object
      */
@@ -81,7 +192,8 @@ public class DynamicRequest {
     }
 
     /**
-     * Sets the url for the HTTP request
+     * Sets the HTTP method for this request.
+     *
      * @param httpMethod the HTTP method for the request
      * @return the modified DynamicRequest object
      */
@@ -92,6 +204,7 @@ public class DynamicRequest {
 
     /**
      * Adds a header to the HTTP request.
+     *
      * @param header the header key
      * @param value the header value
      * @return the modified DynamicRequest object
@@ -103,6 +216,7 @@ public class DynamicRequest {
 
     /**
      * Adds a header to the HTTP request
+     *
      * @param httpHeader the header to add
      * @return the modified DynamicRequest object
      */
@@ -115,7 +229,8 @@ public class DynamicRequest {
     }
 
     /**
-     * Sets the headers on the HTTP request
+     * Sets the headers on the HTTP request. This overwrites all existing HTTP headers for this request.
+     *
      * @param httpHeaders the new headers to replace all existing headers
      * @return the modified DynamicRequest object
      */
@@ -125,7 +240,9 @@ public class DynamicRequest {
     }
 
     /**
-     * Sets the body content on the HTTP request
+     * Sets the string representation of the request body. The {@link ObjectSerializer} is not used if body is
+     * represented as string.
+     *
      * @param body the serialized body content
      * @return the modified DynamicRequest object
      */
@@ -135,7 +252,9 @@ public class DynamicRequest {
     }
 
     /**
-     * Sets the body on the HTTP request
+     * Sets the body on the HTTP request. The object is serialized using {@link ObjectSerializer} provided in the
+     * constructor of this request.
+     *
      * @param body the body object that will be serialized
      * @return the modified DynamicRequest object
      */
@@ -154,6 +273,7 @@ public class DynamicRequest {
     /**
      * Sets the value for a specific path parameter in the URL. The path parameter must be wrapped in a pair of
      * curly braces, like "{paramName}".
+     *
      * @param parameterName the path parameter's name in the curly braces
      * @param value the String value to replace the path parameter
      * @return the modified DynamicRequest object
@@ -208,14 +328,12 @@ public class DynamicRequest {
 
     /**
      * Sends the request through the HTTP pipeline synchronously.
+     *
      * @param context the context to send with the request
      * @return the dynamic response received from the API
      */
     public DynamicResponse send(Context context) {
-        return httpPipeline.send(buildRequest(), context)
-                .flatMap(httpResponse -> BinaryData.fromFlux(httpResponse.getBody())
-                        .map(data -> new DynamicResponse(httpResponse, data)))
-                .block();
+        return sendAsync(context).block();
     }
 
     /**
@@ -223,8 +341,12 @@ public class DynamicRequest {
      * @return the reactor publisher for the dynamic response to subscribe to
      */
     public Mono<DynamicResponse> sendAsync() {
-        return FluxUtil.withContext(context -> httpPipeline.send(buildRequest(), context)
+        return FluxUtil.withContext(this::sendAsync);
+    }
+
+    private Mono<DynamicResponse> sendAsync(Context context) {
+        return httpPipeline.send(buildRequest(), context)
                 .flatMap(httpResponse -> BinaryData.fromFlux(httpResponse.getBody())
-                        .map(data -> new DynamicResponse(httpResponse, data))));
+                        .map(data -> new DynamicResponse(httpResponse, data)));
     }
 }
