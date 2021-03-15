@@ -42,7 +42,7 @@ import java.util.stream.Collectors;
  *
  * <pre>{@code
  * ObjectSerializer serializer = new JacksonJsonSerializerBuilder().build();
- * HttpPipeline pipeline = new HttpPipelineBuilder().build()
+ * HttpPipeline pipeline = new HttpPipelineBuilder().build();
  * DynamicRequest request = new DynamicRequest(serializer, createHttpPipeline());
  * }</pre>
  *
@@ -57,7 +57,7 @@ import java.util.stream.Collectors;
  * to the pet service</a> and setting the pet id in path param as shown in the sample below.
  * <pre>{@code
  * DynamicResponse response = dynamicRequest
- *      .setUrl("https://petstore.example.com/pet/{petId}"); // may already be set if request is created from a client
+ *      .setUrl("https://petstore.example.com/pet/{petId}") // may already be set if request is created from a client
  *      .setPathParam("petId", 2343245)
  *      .send(); // makes the service call
  * }</pre>
@@ -124,8 +124,8 @@ import java.util.stream.Collectors;
  * Now, this string representation of the JSON request can be set as body of DynamicRequest
  * <pre>{@code
  * DynamicResponse response = dynamicRequest
- *         .setUrl("https://petstore.example.com/pet"); // may already be set if request is created from a client
- *         .addHeader("Content-Type", "application/json");
+ *         .setUrl("https://petstore.example.com/pet") // may already be set if request is created from a client
+ *         .addHeader("Content-Type", "application/json")
  *         .setBody(requestBodyStr)
  *         .send(); // makes the service call
  * }</pre>
