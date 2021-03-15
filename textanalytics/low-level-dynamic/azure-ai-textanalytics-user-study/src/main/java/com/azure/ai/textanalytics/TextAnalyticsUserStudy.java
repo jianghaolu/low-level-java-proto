@@ -62,18 +62,18 @@ public class TextAnalyticsUserStudy {
     }
 
     /**
-     * Task 4: You are provided with a data set of movie reviews in mixed languages from IMDB.
-     * You have a helper method readMixedLanguageReviews() that reads the data for you.
-     * Use text analytics services and get the language of each review and print out the result to the console
-     * “review 2 is in [English/Spanish/French]”.
-     * Please use llcClient for this task
+     * Task 4: Repeat task2 using the high-level client (hlcClient).
      */
     private static void task4() {
 
     }
 
     /**
-     * Task 5: Repeat task2 using the high-level client (hlcClient).
+     * Task 5: You are provided with a data set of movie reviews in mixed languages from IMDB.
+     * You have a helper method readMixedLanguageReviews() that reads the data for you.
+     * Use text analytics services and get the language of each review and print out the result to the console
+     * “review 2 is in [English/Spanish/French]”.
+     * Use any of the above approaches that you are comfortable with.
      */
     private static void task5() {
 
