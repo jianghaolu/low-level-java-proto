@@ -36,7 +36,7 @@
   <dependencies>
     <dependency>
       <groupId>com.azure</groupId>
-      <artifactId>azure-ai-textanalytics-low-level</artifactId>
+      <artifactId>azure-ai-textanalytics-protocol</artifactId>
       <version>3.0.0-beta.2</version>
     </dependency>
     <dependency>

@@ -33,9 +33,8 @@ public class RecognizeLinkedEntitiesWithModels {
                 .setId("0").setText("Old Faithful is a geyser at Yellowstone Park.");
         MultiLanguageBatchInput batchInput = new MultiLanguageBatchInput().setDocuments(Collections.singletonList(input));
 
-        EntityLinkingResult result = client.entitiesLinking() // DynamicRequest
+        EntityLinkingResult result = client.getLinkedEntities() // DynamicRequest
                 .setBody(batchInput) // DynamicRequest
-                .context(Context.NONE) // DynamicRequest
                 .send()  // DynamicResponse
                 .getBody() // BinaryData
                 .toObject(TypeReference.createInstance(EntityLinkingResult.class));
