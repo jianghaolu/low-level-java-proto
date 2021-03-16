@@ -40,7 +40,7 @@ public class TextAnalyticsClient {
      * href="https://aka.ms/talangs">Supported languages in Text Analytics API</a> for the list of enabled
      * languages.
      *
-     * <h2>Optional Query Parameters</h2>
+     * <p><strong>Optional Query Parameters</strong></p>
      * <table border="1">
      *     <caption>Optional Query Parameters</caption>
      *     <tr><th>Name</th><th>Type</th><th>Description</th></tr>
@@ -53,7 +53,7 @@ public class TextAnalyticsClient {
      *          https://aka.ms/text-analytics-offsets.</td></tr>
      * </table>
      *
-     * <h2>Request Body Schema</h2>
+     * <p><strong>Request Body Schema</strong></p>
      * <pre>{@code
      * {
      *     documents: [
@@ -65,7 +65,7 @@ public class TextAnalyticsClient {
      *     ] (required)
      * }
      * }</pre>
-     * <h2>Response Body Schema</h2>
+     * <p><strong>Response Body Schema</strong></p>
      * <pre>{@code
      * {
      *     documents: [
@@ -131,7 +131,7 @@ public class TextAnalyticsClient {
      * href="https://aka.ms/talangs">Supported languages in Text Analytics API</a> for the list of enabled
      * languages.
      *
-     * <h2>Optional Query Parameters</h2>
+     * <p><strong>Optional Query Parameters</strong></p>
      * <table border="1">
      *     <caption>Optional Query Parameters</caption>
      *     <tr><th>Name</th><th>Type</th><th>Description</th></tr>
@@ -144,7 +144,7 @@ public class TextAnalyticsClient {
      *          https://aka.ms/text-analytics-offsets.</td></tr>
      * </table>
      *
-     * <h2>Request Body Schema</h2>
+     * <p><strong>Request Body Schema</strong></p>
      * <pre>{@code
      * {
      *     documents: [
@@ -157,7 +157,7 @@ public class TextAnalyticsClient {
      * }
      * }</pre>
      *
-     * <h2>Response Body Schema</h2>
+     * <p><strong>Response Body Schema</strong></p>
      * <pre>{@code
      * {
      *     documents: [{
@@ -217,7 +217,7 @@ public class TextAnalyticsClient {
      * Analytics API</a>. See the <a href="https://aka.ms/talangs">Supported languages in Text Analytics
      * API</a> for the list of enabled languages.
      *
-     * <h2>Optional Query Parameters</h2>
+     * <p><strong>Optional Query Parameters</strong></p>
      * <table border="1">
      *     <caption>Optional Query Parameters</caption>
      *     <tr><th>Name</th><th>Type</th><th>Description</th></tr>
@@ -232,7 +232,7 @@ public class TextAnalyticsClient {
      *          https://aka.ms/text-analytics-offsets.</td></tr>
      * </table>
      *
-     * <h2>Request Body Schema</h2>
+     * <p><strong>Request Body Schema</strong></p>
      * <pre>{@code
      * {
      *     documents: [
@@ -245,7 +245,7 @@ public class TextAnalyticsClient {
      * }
      * }</pre>
      *
-     * <h2>Response Body Schema</h2>
+     * <p><strong>Response Body Schema</strong></p>
      * <pre>{@code
      * {
      *     documents: [{
@@ -304,7 +304,7 @@ public class TextAnalyticsClient {
      * The API returns a detailed sentiment analysis for the input text. The analysis is done in multiple levels of
      * granularity, start from the a document level, down to sentence and key terms (aspects) and opinions.
      *
-     * <h2>Optional Query Parameters</h2>
+     * <p><strong>Optional Query Parameters</strong></p>
      * <table border="1">
      *     <caption>Optional Query Parameters</caption>
      *     <tr><th>Name</th><th>Type</th><th>Description</th></tr>
@@ -319,7 +319,7 @@ public class TextAnalyticsClient {
      *          https://aka.ms/text-analytics-offsets.</td></tr>
      * </table>
      *
-     * <h2>Request Body Schema</h2>
+     * <p><strong>Request Body Schema</strong></p>
      * <pre>{@code
      * {
      *     documents: [
@@ -332,7 +332,7 @@ public class TextAnalyticsClient {
      * }
      * }</pre>
      *
-     * <h2>Response Body Schema</h2>
+     * <p><strong>Response Body Schema</strong></p>
      * <pre>{@code
      * {
      *     documents: [{
@@ -398,7 +398,7 @@ public class TextAnalyticsClient {
      * certainty that the identified language is true. See the <a href="https://aka.ms/talangs">Supported
      * languages in Text Analytics API</a> for the list of enabled languages.
      *
-     * <h2>Optional Query Parameters</h2>
+     * <p><strong>Optional Query Parameters</strong></p>
      * <table border="1">
      *     <caption>Optional Query Parameters</caption>
      *     <tr><th>Name</th><th>Type</th><th>Description</th></tr>
@@ -408,7 +408,7 @@ public class TextAnalyticsClient {
      *          statistics.</td></tr>
      * </table>
      *
-     * <h2>Request Body Schema</h2>
+     * <p><strong>Request Body Schema</strong></p>
      * <pre>{@code
      * {
      *     documents: [
@@ -421,7 +421,7 @@ public class TextAnalyticsClient {
      * }
      * }</pre>
      *
-     * <h2>Response Body Schema</h2>
+     * <p><strong>Response Body Schema</strong></p>
      * <pre>{@code
      * {
      *     documents: [{
@@ -477,7 +477,7 @@ public class TextAnalyticsClient {
      * href="https://aka.ms/talangs">Supported languages in Text Analytics API</a> for the list of enabled
      * languages.
      *
-     * <h2>Optional Query Parameters</h2>
+     * <p><strong>Optional Query Parameters</strong></p>
      * <table border="1">
      *     <caption>Optional Query Parameters</caption>
      *     <tr><th>Name</th><th>Type</th><th>Description</th></tr>
@@ -487,7 +487,7 @@ public class TextAnalyticsClient {
      *          statistics.</td></tr>
      * </table>
      *
-     * <h2>Request Body Schema</h2>
+     * <p><strong>Request Body Schema</strong></p>
      * <pre>{@code
      * {
      *     documents: [
@@ -500,7 +500,7 @@ public class TextAnalyticsClient {
      * }
      * }</pre>
      *
-     * <h2>Response Body Schema</h2>
+     * <p><strong>Response Body Schema</strong></p>
      * <pre>{@code
      * {
      *     documents: [{

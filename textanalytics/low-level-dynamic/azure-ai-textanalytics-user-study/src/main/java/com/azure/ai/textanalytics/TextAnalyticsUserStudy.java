@@ -19,7 +19,7 @@ public class TextAnalyticsUserStudy {
             .buildClient();
 
     // Getting Started:
-    // https://github.com/jianghaolu/low-level-java-proto/blob/requesthelp/textanalytics/low-level-dynamic/azure-ai-textanalytics/README.md
+    // https://github.com/jianghaolu/low-level-java-proto/blob/main/textanalytics/low-level-dynamic/azure-ai-textanalytics/README.md
 
     public static void main(String[] args) {
         System.out.println("Task 1:");
@@ -37,7 +37,9 @@ public class TextAnalyticsUserStudy {
     /**
      * Task 1: You are provided with a movie review from IMDB. Please use text analytics service and detect the
      * sentiment of the review and print out the result to the console "The review is [positive/mixed/negative]".
+     *
      * Please use llcClient for this task
+     *
      * @param movieReview The movie review
      */
     private static void task1(String movieReview) {
@@ -49,6 +51,7 @@ public class TextAnalyticsUserStudy {
      * You have a helper method readEnglishReviews() that reads the data for you.
      * Use text analytics services and detect the sentiment of each review and print out the result to the console
      * “review 2 is [positive/mixed/negative]”.
+     *
      * Please use llcClient for this task
      */
     private static void task2() {
@@ -58,6 +61,7 @@ public class TextAnalyticsUserStudy {
     /**
      * Task 3: You are provided with a set of models in the azure-ai-textanalytics-models/src/main/java directory.
      * Use the models there to complete the previous task.
+     *
      * Please use llcClient for this task
      */
     private static void task3() {
@@ -76,6 +80,7 @@ public class TextAnalyticsUserStudy {
      * You have a helper method readMixedLanguageReviews() that reads the data for you.
      * Use text analytics services and get the language of each review and print out the result to the console
      * “review 2 is in [English/Spanish/French]”.
+     *
      * Use any of the above approaches that you are comfortable with.
      */
     private static void task5() {
