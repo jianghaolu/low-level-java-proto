@@ -117,7 +117,7 @@ public class TextAnalyticsClient {
      * @return a DynamicRequest where customizations can be made before sent to the service
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public DynamicRequest getLinkedEntities() {
+    public DynamicRequest entitiesLinking() {
         return new DynamicRequest(objectSerializer, httpPipeline)
                 .setUrl("{Endpoint}/text/analytics/v3.1-preview.3/entities/linking")
                 .setPathParam("Endpoint", endpoint)
@@ -203,7 +203,7 @@ public class TextAnalyticsClient {
      * @return a DynamicRequest where customizations can be made before sent to the service
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public DynamicRequest getEntities() {
+    public DynamicRequest entitiesRecognitionGeneral() {
         return new DynamicRequest(objectSerializer, httpPipeline)
                 .setUrl("{Endpoint}/text/analytics/v3.1-preview.3/entities/recognition/general")
                 .setPathParam("Endpoint", endpoint)
@@ -292,7 +292,7 @@ public class TextAnalyticsClient {
      * @return a DynamicRequest where customizations can be made before sent to the service
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public DynamicRequest getEntitiesPii() {
+    public DynamicRequest entitiesRecognitionPii() {
         return new DynamicRequest(objectSerializer, httpPipeline)
                 .setUrl("{Endpoint}/text/analytics/v3.1-preview.3/entities/recognition/pii")
                 .setPathParam("Endpoint", endpoint)
@@ -385,7 +385,7 @@ public class TextAnalyticsClient {
      * @return a DynamicRequest where customizations can be made before sent to the service
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public DynamicRequest getSentiment() {
+    public DynamicRequest sentiment() {
         return new DynamicRequest(objectSerializer, httpPipeline)
                 .setUrl("{Endpoint}/text/analytics/v3.1-preview.3/sentiment")
                 .setPathParam("Endpoint", endpoint)
@@ -464,7 +464,7 @@ public class TextAnalyticsClient {
      * @return a DynamicRequest where customizations can be made before sent to the service
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public DynamicRequest getlanguages() {
+    public DynamicRequest languages() {
         return new DynamicRequest(objectSerializer, httpPipeline)
                 .setUrl("{Endpoint}/text/analytics/v3.1-preview.3/languages")
                 .setPathParam("Endpoint", endpoint)
@@ -539,7 +539,7 @@ public class TextAnalyticsClient {
      * @return a DynamicRequest where customizations can be made before sent to the service
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public DynamicRequest getKeyPhrases() {
+    public DynamicRequest keyPhrases() {
         return new DynamicRequest(objectSerializer, httpPipeline)
                 .setUrl("{Endpoint}/text/analytics/v3.1-preview.3/keyPhrases")
                 .setPathParam("Endpoint", endpoint)
