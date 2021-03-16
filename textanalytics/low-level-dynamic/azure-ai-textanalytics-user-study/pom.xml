@@ -10,6 +10,17 @@
   <description>This package contains Microsoft Azure Text Analytics client library.</description>
 
   <dependencies>
+
+
+<!--    Uncomment this dependency for task 3 and refresh the Maven project -->
+<!--      
+    <dependency>
+      <groupId>com.azure</groupId>
+      <artifactId>azure-ai-textanalytics-models</artifactId>
+      <version>3.0.0-beta.2</version>
+    </dependency>
+ -->
+
     <dependency>
       <groupId>com.azure</groupId>
       <artifactId>azure-ai-textanalytics-protocol</artifactId>
