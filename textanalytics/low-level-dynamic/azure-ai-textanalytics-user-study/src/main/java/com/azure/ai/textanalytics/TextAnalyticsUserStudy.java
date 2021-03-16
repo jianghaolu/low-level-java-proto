@@ -6,17 +6,10 @@ import java.util.Arrays;
 import java.util.List;
 
 public class TextAnalyticsUserStudy {
-    // Low-level client (use for tasks 1-3)
-    private static final TextAnalyticsClient llcClient = new TextAnalyticsClientBuilder()
+    private static final TextAnalyticsClient client = new TextAnalyticsClientBuilder()
             .endpoint(System.getenv("AZURE_COGNITIVE_SERVICES_ENDPOINT"))
             .credential(new AzureKeyCredential(System.getenv("AZURE_COGNITIVE_SERVICES_KEY")))
             .build();
-
-    // High-level client (use for task 4)
-    private static final com.azure.ai.textanalytics.hlc.TextAnalyticsClient hlcClient = new com.azure.ai.textanalytics.hlc.TextAnalyticsClientBuilder()
-            .endpoint(System.getenv("AZURE_COGNITIVE_SERVICES_ENDPOINT"))
-            .credential(new AzureKeyCredential(System.getenv("AZURE_COGNITIVE_SERVICES_KEY")))
-            .buildClient();
 
     // Getting Started:
     // https://github.com/jianghaolu/low-level-java-proto/blob/main/textanalytics/low-level-dynamic/azure-ai-textanalytics/README.md
@@ -69,7 +62,7 @@ public class TextAnalyticsUserStudy {
     }
 
     /**
-     * Task 4: Repeat task2 using the high-level client (hlcClient).
+     * Task 4: Repeat task2 using another client (client creation code will be provided to you)
      */
     private static void task4() {
 
