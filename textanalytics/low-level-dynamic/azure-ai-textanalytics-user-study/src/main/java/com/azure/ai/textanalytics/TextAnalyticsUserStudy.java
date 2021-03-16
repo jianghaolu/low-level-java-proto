@@ -6,13 +6,13 @@ import java.util.Arrays;
 import java.util.List;
 
 public class TextAnalyticsUserStudy {
-    // Low-level client
+    // Low-level client (use for tasks 1-3)
     private static final TextAnalyticsClient llcClient = new TextAnalyticsClientBuilder()
             .endpoint(System.getenv("AZURE_COGNITIVE_SERVICES_ENDPOINT"))
             .credential(new AzureKeyCredential(System.getenv("AZURE_COGNITIVE_SERVICES_KEY")))
             .build();
 
-    // High-level client
+    // High-level client (use for task 4)
     private static final com.azure.ai.textanalytics.hlc.TextAnalyticsClient hlcClient = new com.azure.ai.textanalytics.hlc.TextAnalyticsClientBuilder()
             .endpoint(System.getenv("AZURE_COGNITIVE_SERVICES_ENDPOINT"))
             .credential(new AzureKeyCredential(System.getenv("AZURE_COGNITIVE_SERVICES_KEY")))
@@ -23,7 +23,7 @@ public class TextAnalyticsUserStudy {
 
     public static void main(String[] args) {
         System.out.println("Task 1:");
-        task1("The Backyardigans is probably the most annoying show I ever watched, especially I hate the music");
+        task1("The Sponge Bob is probably the most annoying show I ever watched, especially I hate the music");
         System.out.println("Task 2:");
         task2();
         System.out.println("Task 3:");
@@ -84,23 +84,50 @@ public class TextAnalyticsUserStudy {
 
     // Task 6: Feedback - brirfly record your answer to each question below
     // 1) How did you like this API on scale 1-5, where 1 is liked the least and 5 = liked the most")
-    // Answer
-    // 2) What do you find frustrating or unappealing about this API");
-    // Answer
-    // 3) What did you like about this API:");
-    // Answer
-    // 4) Suggest 1 thing to improve, that would have the most impact on your experience");
-    // Answer
-    // 5) How is this API compared to Rest API's you've used in the past:");
-    // Answer
-    // 6) What do you think about the provided documentation:");
-    // Answer
-    // 7) What do you think about IntelliSense documentation:");
-    // Answer
-    // 8) When would you choose to use the JSON based client vs model based client:");
-    // Answer
-    // 9) Would you use this client in production:");
-    // Answer
+    // Answer:
+    // llc:
+    // models:
+    // hlc:
+    // 2) What do you find frustrating or unappealing about this API"
+    // Answer:
+    // llc:
+    // models:
+    // hlc:
+    // 3) What did you like about this API:
+    // Answer:
+    // llc:
+    // models:
+    // hlc:
+    // 4) Suggest 1 thing to improve, that would have the most impact on your experience"
+    // Answer:
+    // llc:
+    // models:
+    // hlc:
+    // 5) How is this API compared to Rest API's you've used in the past:
+    // Answer:
+    // llc:
+    // models:
+    // hlc:
+    // 6) What do you think about the provided documentation:
+    // Answer:
+    // llc:
+    // models:
+    // hlc:
+    // 7) What do you think about IntelliSense documentation:
+    // Answer:
+    // llc:
+    // models:
+    // hlc:
+    // 8) When would you choose to use the JSON based client vs model based client:
+    // Answer:
+    // llc:
+    // models:
+    // hlc:
+    // 9) Would you use this client in production:
+    // Answer:
+    // llc:
+    // models:
+    // hlc:
 
     private static List<String> readEnglishReviews() {
         return Arrays.asList(
