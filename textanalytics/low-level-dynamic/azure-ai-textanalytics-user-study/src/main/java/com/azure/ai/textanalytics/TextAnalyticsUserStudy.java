@@ -38,9 +38,9 @@ public class TextAnalyticsUserStudy {
      * Task 1: You are provided with a movie review from IMDB. Please use text analytics service and detect the
      * sentiment of the review and print out the result to the console "The review is [positive/mixed/negative]".
      * Please use llcClient for this task
-     * @param reviewText The review text
+     * @param movieReview The movie review
      */
-    private static void task1(String reviewText) {
+    private static void task1(String movieReview) {
 
     }
 
@@ -82,7 +82,7 @@ public class TextAnalyticsUserStudy {
 
     }
 
-    // Task 6: Feedback - brirfly record your answer to each question below
+    // Task 6: Feedback - briefly record your answer to each question below
     // 1) How did you like this API on scale 1-5, where 1 is liked the least and 5 = liked the most")
     // Answer:
     // llc:
