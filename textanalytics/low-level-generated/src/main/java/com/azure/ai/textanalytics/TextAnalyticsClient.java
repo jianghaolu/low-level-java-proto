@@ -81,18 +81,16 @@ public final class TextAnalyticsClient {
      * }
      * }</pre>
      *
-     * @param accept the String value.
      * @return a DynamicRequest where customizations can be made before sent to the service.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public DynamicRequest analyzeWithResponseAsync(String accept) {
+    public DynamicRequest analyze() {
         return new DynamicRequest(objectSerializer, pipeline)
                 .setUrl("{Endpoint}/text/analytics/v3.1-preview.3/analyze")
-                .setHttpMethod(HttpMethod.POST)
                 .setPathParam("Endpoint", endpoint)
-                .addHeader("Accept", accept)
+                .addHeader("Accept", "application/json, text/json")
                 .addHeader("Content-Type", "application/json")
-                .addHeader("Accept", "application/json;q=0.9");
+                .setHttpMethod(HttpMethod.POST);
     }
 
     /**
@@ -238,19 +236,17 @@ public final class TextAnalyticsClient {
      * }</pre>
      *
      * @param jobId the String value.
-     * @param accept the String value.
      * @return a DynamicRequest where customizations can be made before sent to the service.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public DynamicRequest analyzeStatusWithResponseAsync(String jobId, String accept) {
+    public DynamicRequest analyzeStatus(String jobId) {
         return new DynamicRequest(objectSerializer, pipeline)
                 .setUrl("{Endpoint}/text/analytics/v3.1-preview.3/analyze/jobs/{jobId}")
-                .setHttpMethod(HttpMethod.GET)
                 .setPathParam("Endpoint", endpoint)
                 .setPathParam("jobId", jobId)
-                .addHeader("Accept", accept)
+                .addHeader("Accept", "application/json, text/json")
                 .addHeader("Content-Type", "application/json")
-                .addHeader("Accept", "application/json, text/json");
+                .setHttpMethod(HttpMethod.GET);
     }
 
     /**
@@ -344,38 +340,34 @@ public final class TextAnalyticsClient {
      * }</pre>
      *
      * @param jobId the UUID value.
-     * @param accept the String value.
      * @return a DynamicRequest where customizations can be made before sent to the service.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public DynamicRequest healthStatusWithResponseAsync(UUID jobId, String accept) {
+    public DynamicRequest healthStatus(UUID jobId) {
         return new DynamicRequest(objectSerializer, pipeline)
                 .setUrl("{Endpoint}/text/analytics/v3.1-preview.3/entities/health/jobs/{jobId}")
-                .setHttpMethod(HttpMethod.GET)
                 .setPathParam("Endpoint", endpoint)
                 .setPathParam("jobId", String.valueOf(jobId))
-                .addHeader("Accept", accept)
+                .addHeader("Accept", "application/json, text/json")
                 .addHeader("Content-Type", "application/json")
-                .addHeader("Accept", "application/json, text/json");
+                .setHttpMethod(HttpMethod.GET);
     }
 
     /**
      * Cancel healthcare prediction job.
      *
      * @param jobId the UUID value.
-     * @param accept the String value.
      * @return a DynamicRequest where customizations can be made before sent to the service.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public DynamicRequest cancelHealthJobWithResponseAsync(UUID jobId, String accept) {
+    public DynamicRequest cancelHealthJob(UUID jobId) {
         return new DynamicRequest(objectSerializer, pipeline)
                 .setUrl("{Endpoint}/text/analytics/v3.1-preview.3/entities/health/jobs/{jobId}")
-                .setHttpMethod(HttpMethod.DELETE)
                 .setPathParam("Endpoint", endpoint)
                 .setPathParam("jobId", String.valueOf(jobId))
-                .addHeader("Accept", accept)
+                .addHeader("Accept", "application/json, text/json")
                 .addHeader("Content-Type", "application/json")
-                .addHeader("Accept", "application/json;q=0.9");
+                .setHttpMethod(HttpMethod.DELETE);
     }
 
     /**
@@ -405,18 +397,16 @@ public final class TextAnalyticsClient {
      * }
      * }</pre>
      *
-     * @param accept the String value.
      * @return a DynamicRequest where customizations can be made before sent to the service.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public DynamicRequest healthWithResponseAsync(String accept) {
+    public DynamicRequest health() {
         return new DynamicRequest(objectSerializer, pipeline)
                 .setUrl("{Endpoint}/text/analytics/v3.1-preview.3/entities/health/jobs")
-                .setHttpMethod(HttpMethod.POST)
                 .setPathParam("Endpoint", endpoint)
-                .addHeader("Accept", accept)
+                .addHeader("Accept", "application/json, text/json")
                 .addHeader("Content-Type", "application/json")
-                .addHeader("Accept", "application/json;q=0.9");
+                .setHttpMethod(HttpMethod.POST);
     }
 
     /**
@@ -511,18 +501,16 @@ public final class TextAnalyticsClient {
      * }
      * }</pre>
      *
-     * @param accept the String value.
      * @return a DynamicRequest where customizations can be made before sent to the service.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public DynamicRequest entitiesRecognitionGeneralWithResponseAsync(String accept) {
+    public DynamicRequest entitiesRecognitionGeneral() {
         return new DynamicRequest(objectSerializer, pipeline)
                 .setUrl("{Endpoint}/text/analytics/v3.1-preview.3/entities/recognition/general")
-                .setHttpMethod(HttpMethod.POST)
                 .setPathParam("Endpoint", endpoint)
-                .addHeader("Accept", accept)
+                .addHeader("Accept", "application/json, text/json")
                 .addHeader("Content-Type", "application/json")
-                .addHeader("Accept", "application/json, text/json");
+                .setHttpMethod(HttpMethod.POST);
     }
 
     /**
@@ -619,18 +607,16 @@ public final class TextAnalyticsClient {
      * }
      * }</pre>
      *
-     * @param accept the String value.
      * @return a DynamicRequest where customizations can be made before sent to the service.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public DynamicRequest entitiesRecognitionPiiWithResponseAsync(String accept) {
+    public DynamicRequest entitiesRecognitionPii() {
         return new DynamicRequest(objectSerializer, pipeline)
                 .setUrl("{Endpoint}/text/analytics/v3.1-preview.3/entities/recognition/pii")
-                .setHttpMethod(HttpMethod.POST)
                 .setPathParam("Endpoint", endpoint)
-                .addHeader("Accept", accept)
+                .addHeader("Accept", "application/json, text/json")
                 .addHeader("Content-Type", "application/json")
-                .addHeader("Accept", "application/json, text/json");
+                .setHttpMethod(HttpMethod.POST);
     }
 
     /**
@@ -732,18 +718,16 @@ public final class TextAnalyticsClient {
      * }
      * }</pre>
      *
-     * @param accept the String value.
      * @return a DynamicRequest where customizations can be made before sent to the service.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public DynamicRequest entitiesLinkingWithResponseAsync(String accept) {
+    public DynamicRequest entitiesLinking() {
         return new DynamicRequest(objectSerializer, pipeline)
                 .setUrl("{Endpoint}/text/analytics/v3.1-preview.3/entities/linking")
-                .setHttpMethod(HttpMethod.POST)
                 .setPathParam("Endpoint", endpoint)
-                .addHeader("Accept", accept)
+                .addHeader("Accept", "application/json, text/json")
                 .addHeader("Content-Type", "application/json")
-                .addHeader("Accept", "application/json, text/json");
+                .setHttpMethod(HttpMethod.POST);
     }
 
     /**
@@ -829,18 +813,16 @@ public final class TextAnalyticsClient {
      * }
      * }</pre>
      *
-     * @param accept the String value.
      * @return a DynamicRequest where customizations can be made before sent to the service.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public DynamicRequest keyPhrasesWithResponseAsync(String accept) {
+    public DynamicRequest keyPhrases() {
         return new DynamicRequest(objectSerializer, pipeline)
                 .setUrl("{Endpoint}/text/analytics/v3.1-preview.3/keyPhrases")
-                .setHttpMethod(HttpMethod.POST)
                 .setPathParam("Endpoint", endpoint)
-                .addHeader("Accept", accept)
+                .addHeader("Accept", "application/json, text/json")
                 .addHeader("Content-Type", "application/json")
-                .addHeader("Accept", "application/json, text/json");
+                .setHttpMethod(HttpMethod.POST);
     }
 
     /**
@@ -928,18 +910,16 @@ public final class TextAnalyticsClient {
      * }
      * }</pre>
      *
-     * @param accept the String value.
      * @return a DynamicRequest where customizations can be made before sent to the service.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public DynamicRequest languagesWithResponseAsync(String accept) {
+    public DynamicRequest languages() {
         return new DynamicRequest(objectSerializer, pipeline)
                 .setUrl("{Endpoint}/text/analytics/v3.1-preview.3/languages")
-                .setHttpMethod(HttpMethod.POST)
                 .setPathParam("Endpoint", endpoint)
-                .addHeader("Accept", accept)
+                .addHeader("Accept", "application/json, text/json")
                 .addHeader("Content-Type", "application/json")
-                .addHeader("Accept", "application/json, text/json");
+                .setHttpMethod(HttpMethod.POST);
     }
 
     /**
@@ -1066,17 +1046,15 @@ public final class TextAnalyticsClient {
      * }
      * }</pre>
      *
-     * @param accept the String value.
      * @return a DynamicRequest where customizations can be made before sent to the service.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public DynamicRequest sentimentWithResponseAsync(String accept) {
+    public DynamicRequest sentiment() {
         return new DynamicRequest(objectSerializer, pipeline)
                 .setUrl("{Endpoint}/text/analytics/v3.1-preview.3/sentiment")
-                .setHttpMethod(HttpMethod.POST)
                 .setPathParam("Endpoint", endpoint)
-                .addHeader("Accept", accept)
+                .addHeader("Accept", "application/json, text/json")
                 .addHeader("Content-Type", "application/json")
-                .addHeader("Accept", "application/json, text/json");
+                .setHttpMethod(HttpMethod.POST);
     }
 }

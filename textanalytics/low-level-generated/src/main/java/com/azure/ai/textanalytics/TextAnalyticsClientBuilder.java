@@ -198,7 +198,7 @@ public final class TextAnalyticsClientBuilder {
      *
      * @return an instance of TextAnalyticsClient.
      */
-    public TextAnalyticsClient buildTextAnalyticsClient() {
+    public TextAnalyticsClient buildClient() {
         TextAnalyticsClient client = new TextAnalyticsClient(endpoint, pipeline, objectSerializer);
         return client;
     }
