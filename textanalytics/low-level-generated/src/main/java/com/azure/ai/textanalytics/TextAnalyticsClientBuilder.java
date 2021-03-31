@@ -17,7 +17,6 @@ import com.azure.core.http.policy.RetryPolicy;
 import com.azure.core.http.policy.UserAgentPolicy;
 import com.azure.core.util.Configuration;
 import com.azure.core.util.serializer.ObjectSerializer;
-import com.azure.core.util.serializer.SerializerAdapter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -84,22 +83,6 @@ public final class TextAnalyticsClientBuilder {
      */
     public TextAnalyticsClientBuilder pipeline(HttpPipeline pipeline) {
         this.pipeline = pipeline;
-        return this;
-    }
-
-    /*
-     * The serializer to serialize an object into a string
-     */
-    private SerializerAdapter serializerAdapter;
-
-    /**
-     * Sets The serializer to serialize an object into a string.
-     *
-     * @param serializerAdapter the serializerAdapter value.
-     * @return the TextAnalyticsClientBuilder.
-     */
-    public TextAnalyticsClientBuilder serializerAdapter(SerializerAdapter serializerAdapter) {
-        this.serializerAdapter = serializerAdapter;
         return this;
     }
 
